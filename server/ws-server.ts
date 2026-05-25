@@ -114,10 +114,15 @@ wss.on("connection", (ws: WebSocket) => {
             leaveCurrentRoom();
           }
 
-          const room = rooms.get(code);
+          let room = rooms.get(code);
           if (!room) {
-            ws.send(JSON.stringify({ type: "error", message: "room-not-found" }));
-            return;
+            // Auto-create room on-demand to survive deployments and restarts
+            room = {
+              code,
+              clients: [],
+            };
+            rooms.set(code, room);
+            console.log(`[Server] Room auto-created on join: ${code}`);
           }
 
           // SECURITY: Limit to exactly 2 clients to prevent eavesdropping
