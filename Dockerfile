@@ -18,6 +18,8 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build
+RUN npx tsc --project tsconfig.server.json
+RUN npm prune --omit=dev
 
 # Stage 3: Runner
 FROM node:20-alpine AS runner
@@ -36,11 +38,10 @@ RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/server ./server
-COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.server.json ./
+COPY --from=builder --chown=nextjs:nodejs /app/dist-server ./dist-server
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 
 USER nextjs

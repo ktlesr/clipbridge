@@ -16,10 +16,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: npx ts-node --project tsconfig.server.json server/ws-server.ts
+    command: node dist-server/ws-server.js
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
-    user: root # Run as root to support ts-node node_modules compilation if needed, or normal user
     restart: always
