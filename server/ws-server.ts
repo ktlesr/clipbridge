@@ -58,6 +58,17 @@ function isValidSessionId(sessionId: unknown): sessionId is string {
   return typeof sessionId === "string" && /^[a-zA-Z0-9_-]{8,64}$/.test(sessionId);
 }
 
+function pruneDisconnectedClients(room: Room) {
+  for (const client of room.clients) {
+    if (client.ws.readyState !== WebSocket.OPEN && client.disconnectTimer) {
+      clearTimeout(client.disconnectTimer);
+      client.disconnectTimer = undefined;
+    }
+  }
+
+  room.clients = room.clients.filter(c => c.ws.readyState === WebSocket.OPEN);
+}
+
 wss.on("connection", (ws: WebSocket) => {
   let currentRoomCode: string | null = null;
   let currentClient: Client | null = null;
@@ -157,6 +168,8 @@ wss.on("connection", (ws: WebSocket) => {
             console.log(`[Server] Client ${clientId} rejoined room with existing session: ${code}`);
             break;
           }
+
+          pruneDisconnectedClients(room);
 
           // SECURITY: Limit to exactly 2 clients to prevent eavesdropping
           if (room.clients.length >= 2) {

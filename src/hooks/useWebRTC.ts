@@ -26,13 +26,14 @@ const SIGNALING_SESSION_KEY = "clipbridge:signalingSessionId";
 
 function getSignalingSessionId() {
   try {
-    const storedId = sessionStorage.getItem(SIGNALING_SESSION_KEY);
+    const storedId = localStorage.getItem(SIGNALING_SESSION_KEY) || sessionStorage.getItem(SIGNALING_SESSION_KEY);
     if (storedId) {
+      localStorage.setItem(SIGNALING_SESSION_KEY, storedId);
       return storedId;
     }
 
     const sessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2);
-    sessionStorage.setItem(SIGNALING_SESSION_KEY, sessionId);
+    localStorage.setItem(SIGNALING_SESSION_KEY, sessionId);
     return sessionId;
   } catch {
     return Math.random().toString(36).slice(2);
