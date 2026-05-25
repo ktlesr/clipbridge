@@ -54,6 +54,7 @@ export default function HomePage() {
         const data = JSON.parse(event.data);
         if (data.type === "room-created") {
           toast.success("Room created successfully!");
+          ws.close(); // Close the creation-only socket to free the room slots
           router.push(`/oda/${data.code}`);
         } else if (data.type === "error") {
           toast.error(`Error creating room: ${data.message}`);

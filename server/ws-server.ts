@@ -74,22 +74,25 @@ wss.on("connection", (ws: WebSocket) => {
 
       switch (data.type) {
         case "create-room": {
-          // If already in a room, leave it first
-          if (currentRoomCode) {
-            leaveCurrentRoom();
-          }
-
           const code = generateRoomCode();
           const room: Room = {
             code,
-            clients: [{ ws, id: clientId }],
+            clients: [],
           };
 
           rooms.set(code, room);
-          currentRoomCode = code;
+
+          // Clean up the room if no one joins within 30 seconds to prevent leaks
+          setTimeout(() => {
+            const r = rooms.get(code);
+            if (r && r.clients.length === 0) {
+              rooms.delete(code);
+              console.log(`[Server] Empty room auto-cleaned: ${code}`);
+            }
+          }, 30000);
 
           ws.send(JSON.stringify({ type: "room-created", code }));
-          console.log(`[Server] Room created: ${code} by client: ${clientId}`);
+          console.log(`[Server] Room registered: ${code}`);
           break;
         }
 
