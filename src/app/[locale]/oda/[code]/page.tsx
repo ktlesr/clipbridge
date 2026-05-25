@@ -13,6 +13,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, ArrowLeft, LogOut, Loader2, Link2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+import { TransferHero } from "@/components/transfer-hero";
 
 interface RoomPageProps {
   params: Promise<{ code: string }>;
@@ -165,6 +166,10 @@ export default function RoomPage({ params }: RoomPageProps) {
             animate={{ opacity: 1, y: 0 }}
             className="w-full flex flex-col gap-6"
           >
+            <TransferHero
+              connectionStatus={connectionStatus}
+              fileTransfer={fileTransfer}
+            />
             <InfoBar />
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full items-stretch">
