@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { ClipboardItem, ConnectionStatus } from "@/hooks/useWebRTC";
 import { Send, Copy, Check, History, Sparkles } from "lucide-react";
@@ -17,48 +17,6 @@ export function ClipboardPanel({ connectionStatus, history, sendText }: Clipboar
   const t = useTranslations("clipboard");
   const [text, setText] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [autoSync, setAutoSync] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("autoSyncEnabled");
-    if (stored === "true") {
-      setAutoSync(true);
-      checkClipboardPermission();
-    }
-  }, []);
-
-  const checkClipboardPermission = async () => {
-    try {
-      const result = await navigator.permissions.query({ name: "clipboard-read" as any });
-      if (result.state === "denied") {
-        toast.warning(t("permissionDenied"));
-        setAutoSync(false);
-        localStorage.setItem("autoSyncEnabled", "false");
-      }
-    } catch (e) {
-      console.warn("Clipboard permissions check not supported by browser.", e);
-    }
-  };
-
-  const handleToggleAutoSync = async () => {
-    const nextVal = !autoSync;
-    if (nextVal) {
-      // Prompt for permission
-      try {
-        await navigator.clipboard.readText();
-        setAutoSync(true);
-        localStorage.setItem("autoSyncEnabled", "true");
-        toast.success("Auto Sync Enabled!");
-      } catch (err) {
-        toast.error(t("permissionDenied"));
-        setAutoSync(false);
-        localStorage.setItem("autoSyncEnabled", "false");
-      }
-    } else {
-      setAutoSync(false);
-      localStorage.setItem("autoSyncEnabled", "false");
-    }
-  };
 
   const handleSend = () => {
     if (!text.trim()) return;
@@ -78,30 +36,6 @@ export function ClipboardPanel({ connectionStatus, history, sendText }: Clipboar
       });
   };
 
-  // Listen to clipboard events if auto-sync is on
-  useEffect(() => {
-    if (!autoSync || connectionStatus !== "connected") return;
-
-    let lastText = "";
-    const interval = setInterval(async () => {
-      try {
-        // Tab must be active/focused to read clipboard text
-        if (document.hasFocus()) {
-          const currentText = await navigator.clipboard.readText();
-          if (currentText && currentText !== lastText && currentText.trim()) {
-            lastText = currentText;
-            setText(currentText);
-            toast.info("Pano içeriği otomatik yapıştırıldı!");
-          }
-        }
-      } catch (e) {
-        // Silent catch for clipboard read errors (typically occurs when window is out of focus)
-      }
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [autoSync, connectionStatus]);
-
   const isConnected = connectionStatus === "connected";
 
   return (
@@ -114,22 +48,6 @@ export function ClipboardPanel({ connectionStatus, history, sendText }: Clipboar
         
         {/* Connection status indicator in header */}
         <span className={`h-2.5 w-2.5 rounded-full ${isConnected ? "bg-green-500 animate-pulse" : "bg-red-500"}`} />
-      </div>
-
-      {/* Auto Sync Toggle */}
-      <div className="flex items-center justify-between p-3 rounded-2xl bg-foreground/5 text-xs">
-        <div className="flex flex-col gap-0.5">
-          <span className="font-semibold text-foreground">{t("autoSync")}</span>
-          <span className="text-muted-foreground max-w-[200px] leading-snug">{t("autoSyncTip")}</span>
-        </div>
-        <button
-          onClick={handleToggleAutoSync}
-          className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${autoSync ? "bg-indigo-600" : "bg-neutral-300 dark:bg-neutral-700"}`}
-        >
-          <span
-            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${autoSync ? "translate-x-5" : "translate-x-0"}`}
-          />
-        </button>
       </div>
 
       {/* Text Area input */}

@@ -12,7 +12,8 @@
     "joinButton": "Odaya Katıl",
     "invalidCode": "Lütfen geçerli bir oda kodu girin.",
     "creating": "Oda oluşturuluyor...",
-    "joining": "Bağlanılıyor..."
+    "joining": "Bağlanılıyor...",
+    "recentRoom": "Son Odaya Hızlı Katıl"
   },
   "room": {
     "title": "Köprü Odası: {code}",
@@ -37,10 +38,7 @@
     "empty": "Henüz paylaşılan bir metin yok.",
     "copy": "Kopyala",
     "copied": "Panoya kopyalandı!",
-    "received": "Yeni pano metni alındı!",
-    "autoSync": "Otomatik Yapıştır",
-    "autoSyncTip": "Pano izinleri etkinse, kopyaladığınız metinler otomatik olarak paylaşım kutusuna doldurulur.",
-    "permissionDenied": "Pano erişim izni reddedildi. Lütfen tarayıcı ayarlarından izin verin."
+    "received": "Yeni pano metni alındı!"
   },
   "files": {
     "title": "Dosya Transferi",

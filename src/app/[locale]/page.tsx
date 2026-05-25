@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { LanguageThemeToggle } from "@/components/language-theme-toggle";
 import { motion, AnimatePresence } from "framer-motion";
-import { HelpCircle, ArrowRight, Compass, PlusCircle, Laptop, ShieldCheck, QrCode } from "lucide-react";
+import { HelpCircle, ArrowRight, Compass, PlusCircle, Laptop, ShieldCheck, QrCode, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { QRScanner } from "@/components/qr-scanner";
 
@@ -18,6 +18,15 @@ export default function HomePage() {
   const [loadingType, setLoadingType] = useState<"create" | "join" | null>(null);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
+  const [lastRoom, setLastRoom] = useState<string | null>(null);
+
+  // Load last connected room code on mount (client-side only)
+  useEffect(() => {
+    const code = localStorage.getItem("lastRoomCode");
+    if (code) {
+      setLastRoom(code);
+    }
+  }, []);
 
   // Capture PWA installation trigger
   useEffect(() => {
@@ -137,6 +146,31 @@ export default function HomePage() {
           transition={{ delay: 0.2 }}
           className="glass rounded-3xl p-6 md:p-8 w-full shadow-2xl relative border-foreground/10"
         >
+          {/* Quick Rejoin Recent Room */}
+          {lastRoom && (
+            <motion.button
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+              onClick={() => {
+                setLoadingType("join");
+                router.push(`/oda/${lastRoom}`);
+              }}
+              disabled={loadingType !== null}
+              className="mb-6 flex items-center justify-between gap-3 w-full rounded-2xl bg-indigo-500/10 hover:bg-indigo-500/15 border border-indigo-500/20 px-4 py-3.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 cursor-pointer transition-all disabled:opacity-50"
+            >
+              <span className="flex items-center gap-1.5">
+                <Sparkles className="h-4 w-4 text-indigo-500 animate-pulse" />
+                <span>{t("recentRoom")}</span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="bg-indigo-600 text-white font-extrabold px-2.5 py-1 rounded-xl text-xs tracking-wider shadow-sm shadow-indigo-600/20">
+                  {lastRoom}
+                </span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </span>
+            </motion.button>
+          )}
+
           {/* Create Room Section */}
           <motion.button
             whileHover={{ scale: 1.01 }}

@@ -243,13 +243,6 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
               };
               setClipboardHistory(prev => [item, ...prev]);
               toast.info("New text received from peer!");
-
-              // Try auto-copying if enabled and tab focused
-              if (localStorage.getItem("autoSyncEnabled") === "true") {
-                navigator.clipboard.writeText(msg.payload)
-                  .then(() => toast.success("Auto-copied to clipboard!"))
-                  .catch(() => console.warn("Failed to auto-copy. Clipboard API requires focus."));
-              }
             } else if (msg.type === "file-meta") {
               // File transfer header
               currentFileMetaRef.current = {

@@ -45,6 +45,13 @@ export default function RoomPage({ params }: RoomPageProps) {
     setRoomUrl(window.location.href);
   }, []);
 
+  // Save last room code to localStorage for quick rejoin
+  useEffect(() => {
+    if (code) {
+      localStorage.setItem("lastRoomCode", code);
+    }
+  }, [code]);
+
   // Exit warning beforeunload event listener
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {

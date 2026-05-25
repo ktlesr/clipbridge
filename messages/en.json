@@ -12,7 +12,8 @@
     "joinButton": "Join Room",
     "invalidCode": "Please enter a valid room code.",
     "creating": "Creating room...",
-    "joining": "Connecting..."
+    "joining": "Connecting...",
+    "recentRoom": "Quick Rejoin Recent Room"
   },
   "room": {
     "title": "Bridge Room: {code}",
@@ -37,10 +38,7 @@
     "empty": "No clipboard items shared yet.",
     "copy": "Copy",
     "copied": "Copied to clipboard!",
-    "received": "New clipboard text received!",
-    "autoSync": "Auto Paste",
-    "autoSyncTip": "If clipboard permissions are enabled, copied texts will automatically fill the input box.",
-    "permissionDenied": "Clipboard access permission denied. Please enable it in browser settings."
+    "received": "New clipboard text received!"
   },
   "files": {
     "title": "File Transfer",
