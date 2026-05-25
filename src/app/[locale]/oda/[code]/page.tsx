@@ -11,7 +11,7 @@ import { InfoBar } from "@/components/info-bar";
 import { LanguageThemeToggle } from "@/components/language-theme-toggle";
 import { QRCodeSVG } from "qrcode.react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Copy, Check, ArrowLeft, LogOut, Loader2, Link2, AlertTriangle, HelpCircle } from "lucide-react";
+import { Copy, Check, ArrowLeft, LogOut, Loader2, Link2, AlertTriangle, HelpCircle, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { TransferHero } from "@/components/transfer-hero";
 
@@ -31,6 +31,7 @@ export default function RoomPage({ params }: RoomPageProps) {
   const [roomUrl, setRoomUrl] = useState("");
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [pendingRoute, setPendingRoute] = useState<"/" | "/about">("/");
+  const [lastRoom, setLastRoom] = useState<string | null>(null);
 
   const handlePeerDisconnect = () => {
     toast.error("Peer disconnected. Returning to waiting state.");
@@ -55,6 +56,7 @@ export default function RoomPage({ params }: RoomPageProps) {
   // Save last room code to localStorage for quick rejoin
   useEffect(() => {
     if (code) {
+      setLastRoom(localStorage.getItem("lastRoomCode") || code);
       localStorage.setItem("lastRoomCode", code);
     }
   }, [code]);
@@ -95,6 +97,17 @@ export default function RoomPage({ params }: RoomPageProps) {
   };
 
   const handleLeave = () => handleNavigateAway("/");
+
+  const handleRejoinRecentRoom = () => {
+    if (!lastRoom) return;
+
+    if (lastRoom.toUpperCase() === code) {
+      window.location.reload();
+      return;
+    }
+
+    router.push(`/oda/${lastRoom}`);
+  };
 
   const confirmLeave = () => {
     setShowExitConfirm(false);
@@ -250,6 +263,22 @@ export default function RoomPage({ params }: RoomPageProps) {
 
                 {/* Link and Share */}
                 <div className="flex flex-col gap-2 w-full max-w-sm">
+                  {lastRoom && (
+                    <motion.button
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      onClick={handleRejoinRecentRoom}
+                      className="flex items-center justify-between gap-3 w-full rounded-2xl bg-indigo-500/10 hover:bg-indigo-500/15 border border-indigo-500/20 px-4 py-3 text-xs font-bold text-indigo-600 dark:text-indigo-400 cursor-pointer transition-all"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <Sparkles className="h-4 w-4 text-indigo-500" />
+                        <span>{tHome("recentRoom")}</span>
+                      </span>
+                      <span className="bg-indigo-600 text-white font-extrabold px-2.5 py-1 rounded-xl text-xs tracking-wider shadow-sm shadow-indigo-600/20">
+                        {lastRoom}
+                      </span>
+                    </motion.button>
+                  )}
                   <div className="flex items-center gap-2 bg-foreground/5 p-2 rounded-2xl border border-foreground/5 relative overflow-hidden">
                     <Link2 className="h-4 w-4 shrink-0 text-muted-foreground ml-2" />
                     <span className="text-xs truncate font-medium flex-1 text-left text-muted-foreground select-all pr-4">

@@ -22,6 +22,22 @@ export interface FileTransferState {
 
 const CHUNK_SIZE = 16384; // 16 KB standard WebRTC chunk size
 const BUFFERED_AMOUNT_LOW_THRESHOLD = 65536; // 64 KB
+const SIGNALING_SESSION_KEY = "clipbridge:signalingSessionId";
+
+function getSignalingSessionId() {
+  try {
+    const storedId = sessionStorage.getItem(SIGNALING_SESSION_KEY);
+    if (storedId) {
+      return storedId;
+    }
+
+    const sessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2);
+    sessionStorage.setItem(SIGNALING_SESSION_KEY, sessionId);
+    return sessionId;
+  } catch {
+    return Math.random().toString(36).slice(2);
+  }
+}
 
 export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => void) {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("idle");
@@ -445,6 +461,7 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
         ws.send(JSON.stringify({
           type: "join-room",
           code: roomCode,
+          sessionId: getSignalingSessionId(),
         }));
       };
 

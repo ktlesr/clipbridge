@@ -4,6 +4,8 @@ import * as http from "http";
 interface Client {
   ws: WebSocket;
   id: string;
+  sessionId: string;
+  disconnectTimer?: NodeJS.Timeout;
 }
 
 interface Room {
@@ -13,6 +15,7 @@ interface Room {
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 const MAX_MESSAGE_SIZE = 64 * 1024; // 64 KB limit for signaling payloads to prevent memory DoS
+const DISCONNECT_GRACE_MS = 5 * 60 * 1000;
 
 const server = http.createServer((req, res) => {
   res.writeHead(200, { "Content-Type": "text/plain" });
@@ -51,8 +54,13 @@ function generateClientId(): string {
   return Math.random().toString(36).substring(2, 15);
 }
 
+function isValidSessionId(sessionId: unknown): sessionId is string {
+  return typeof sessionId === "string" && /^[a-zA-Z0-9_-]{8,64}$/.test(sessionId);
+}
+
 wss.on("connection", (ws: WebSocket) => {
   let currentRoomCode: string | null = null;
+  let currentClient: Client | null = null;
   const clientId = generateClientId();
 
   console.log(`[Server] Client connected: ${clientId}`);
@@ -125,6 +133,30 @@ wss.on("connection", (ws: WebSocket) => {
             console.log(`[Server] Room auto-created on join: ${code}`);
           }
 
+          const sessionId = isValidSessionId(data.sessionId) ? data.sessionId : clientId;
+          const existingClient = room.clients.find(c => c.sessionId === sessionId);
+
+          if (existingClient) {
+            if (existingClient.disconnectTimer) {
+              clearTimeout(existingClient.disconnectTimer);
+              existingClient.disconnectTimer = undefined;
+            }
+            existingClient.ws = ws;
+            existingClient.id = clientId;
+            currentClient = existingClient;
+            currentRoomCode = code;
+
+            ws.send(JSON.stringify({ type: "room-joined", code }));
+
+            const peer = room.clients.find(c => c.sessionId !== sessionId);
+            if (peer && peer.ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({ type: "peer-info", peerId: peer.id }));
+            }
+
+            console.log(`[Server] Client ${clientId} rejoined room with existing session: ${code}`);
+            break;
+          }
+
           // SECURITY: Limit to exactly 2 clients to prevent eavesdropping
           if (room.clients.length >= 2) {
             ws.send(JSON.stringify({ type: "error", message: "room-full" }));
@@ -132,14 +164,15 @@ wss.on("connection", (ws: WebSocket) => {
             return;
           }
 
-          room.clients.push({ ws, id: clientId });
+          currentClient = { ws, id: clientId, sessionId };
+          room.clients.push(currentClient);
           currentRoomCode = code;
 
           ws.send(JSON.stringify({ type: "room-joined", code }));
           
           // Notify the other client in the room to start WebRTC negotiation
           const peer = room.clients.find(c => c.id !== clientId);
-          if (peer) {
+          if (peer && peer.ws.readyState === WebSocket.OPEN) {
             peer.ws.send(JSON.stringify({ type: "peer-joined", peerId: clientId }));
             ws.send(JSON.stringify({ type: "peer-info", peerId: peer.id }));
           }
@@ -161,7 +194,7 @@ wss.on("connection", (ws: WebSocket) => {
           }
 
           // Find the peer in the room and route the signaling data
-          const peer = room.clients.find(c => c.id !== clientId);
+          const peer = room.clients.find(c => c.id !== clientId && c.ws.readyState === WebSocket.OPEN);
           if (peer) {
             peer.ws.send(JSON.stringify({
               type: "signal",
@@ -182,7 +215,7 @@ wss.on("connection", (ws: WebSocket) => {
 
   ws.on("close", () => {
     console.log(`[Server] Client disconnected: ${clientId}`);
-    leaveCurrentRoom();
+    scheduleLeaveCurrentRoom();
   });
 
   ws.on("error", (error) => {
@@ -190,26 +223,65 @@ wss.on("connection", (ws: WebSocket) => {
   });
 
   function leaveCurrentRoom() {
-    if (!currentRoomCode) return;
+    if (!currentRoomCode || !currentClient) return;
 
-    const room = rooms.get(currentRoomCode);
+    const roomCode = currentRoomCode;
+    const clientToRemove = currentClient;
+
+    if (clientToRemove.disconnectTimer) {
+      clearTimeout(clientToRemove.disconnectTimer);
+      clientToRemove.disconnectTimer = undefined;
+    }
+
+    const room = rooms.get(roomCode);
     if (room) {
       // Remove this client from the room
-      room.clients = room.clients.filter(c => c.id !== clientId);
-      console.log(`[Server] Client ${clientId} left room: ${currentRoomCode}`);
+      room.clients = room.clients.filter(c => c !== clientToRemove);
+      console.log(`[Server] Client ${clientId} left room: ${roomCode}`);
 
       if (room.clients.length === 0) {
         // Clean up empty room
-        rooms.delete(currentRoomCode);
-        console.log(`[Server] Room deleted because it's empty: ${currentRoomCode}`);
+        rooms.delete(roomCode);
+        console.log(`[Server] Room deleted because it's empty: ${roomCode}`);
       } else {
         // Notify the remaining client
         for (const client of room.clients) {
-          client.ws.send(JSON.stringify({ type: "peer-disconnected" }));
+          if (client.ws.readyState === WebSocket.OPEN) {
+            client.ws.send(JSON.stringify({ type: "peer-disconnected" }));
+          }
         }
       }
     }
     currentRoomCode = null;
+    currentClient = null;
+  }
+
+  function scheduleLeaveCurrentRoom() {
+    if (!currentRoomCode || !currentClient) return;
+
+    const roomCode = currentRoomCode;
+    const clientToRemove = currentClient;
+
+    clientToRemove.disconnectTimer = setTimeout(() => {
+      if (clientToRemove.ws !== ws) return;
+
+      const room = rooms.get(roomCode);
+      if (!room) return;
+
+      room.clients = room.clients.filter(c => c !== clientToRemove);
+      console.log(`[Server] Client ${clientId} left room after grace period: ${roomCode}`);
+
+      if (room.clients.length === 0) {
+        rooms.delete(roomCode);
+        console.log(`[Server] Room deleted because it's empty: ${roomCode}`);
+      } else {
+        for (const client of room.clients) {
+          if (client.ws.readyState === WebSocket.OPEN) {
+            client.ws.send(JSON.stringify({ type: "peer-disconnected" }));
+          }
+        }
+      }
+    }, DISCONNECT_GRACE_MS);
   }
 });
 
