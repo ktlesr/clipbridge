@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NEXT_PUBLIC_WS_URL=localhost:3001
+    restart: always
+
+  signaling:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npx ts-node --project tsconfig.server.json server/ws-server.ts
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+    user: root # Run as root to support ts-node node_modules compilation if needed, or normal user
+    restart: always

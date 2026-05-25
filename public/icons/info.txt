@@ -1,0 +1,3 @@
+Place generated icon-192.png and icon-512.png files here.
+You can find the premium generated asset in the artifact directory at:
+C:\Users\KESER\.gemini\antigravity-ide\brain\110d8c47-839b-4f83-a99c-84b039cdb4fc\pwa_icon_1779697610506.png

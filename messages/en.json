@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "title": "ClipBridge – Instant Clipboard & File Sync",
+    "description": "Sync clipboard text and transfer files between devices instantly via WebRTC. End-to-end encrypted, zero registration or passwords required."
+  },
+  "home": {
+    "welcome": "Welcome to ClipBridge",
+    "tagline": "Establish an instant, end-to-end encrypted direct connection between devices.",
+    "createRoom": "Create New Room",
+    "or": "or",
+    "joinRoomPlaceholder": "Enter 5-Character Room Code",
+    "joinButton": "Join Room",
+    "invalidCode": "Please enter a valid room code.",
+    "creating": "Creating room...",
+    "joining": "Connecting..."
+  },
+  "room": {
+    "title": "Bridge Room: {code}",
+    "peerWaiting": "Waiting for connection... Open this page on the other device:",
+    "copyLink": "Copy Room Link",
+    "linkCopied": "Room link copied to clipboard!",
+    "status": {
+      "idle": "Idle",
+      "connecting": "Connecting...",
+      "connected": "Connected",
+      "disconnected": "Disconnected"
+    },
+    "warningBar": "This page must remain open on both devices. Once started, file transfers can run in the background.",
+    "exitWarning": "You have an active connection. Are you sure you want to leave?",
+    "leaveButton": "Leave / Close"
+  },
+  "clipboard": {
+    "title": "Clipboard Bridge",
+    "placeholder": "Type or paste the text you want to send...",
+    "send": "Send Text",
+    "history": "Clipboard History",
+    "empty": "No clipboard items shared yet.",
+    "copy": "Copy",
+    "copied": "Copied to clipboard!",
+    "received": "New clipboard text received!",
+    "autoSync": "Auto Synchronization",
+    "autoSyncTip": "If clipboard permissions are enabled, copied texts will automatically sync to the other device.",
+    "permissionDenied": "Clipboard access permission denied. Please enable it in browser settings."
+  },
+  "files": {
+    "title": "File Transfer",
+    "dragDrop": "Drag & drop file here or click to select",
+    "limitTip": "Maximum file size: 50 MB",
+    "sending": "Sending...",
+    "receiving": "Receiving...",
+    "completed": "Completed!",
+    "failed": "Transfer Failed!",
+    "bgNotice": "You can close the tab. The Service Worker will continue the transfer in the background.",
+    "exceedLimit": "File size cannot exceed 50 MB.",
+    "download": "Download",
+    "status": "Status: {status}"
+  },
+  "pwa": {
+    "installPrompt": "Install App",
+    "installDesc": "Install ClipBridge as a PWA for seamless background transfers.",
+    "bgTransferNotification": "Transfer is running in the background."
+  }
+}

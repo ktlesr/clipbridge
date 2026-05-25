@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "title": "ClipBridge / Köprü – Anlık Pano ve Dosya Köprüsü",
+    "description": "Hiçbir kayıt veya şifre olmadan, WebRTC ile uçtan uca şifreli olarak pano (clipboard) senkronizasyonu ve dosya transferi yapın."
+  },
+  "home": {
+    "welcome": "Köprü'ye Hoş Geldiniz",
+    "tagline": "Cihazlar arasında anında, uçtan uca şifreli ve doğrudan köprü kurun.",
+    "createRoom": "Yeni Oda Oluştur",
+    "or": "veya",
+    "joinRoomPlaceholder": "5 Haneli Oda Kodu Girin",
+    "joinButton": "Odaya Katıl",
+    "invalidCode": "Lütfen geçerli bir oda kodu girin.",
+    "creating": "Oda oluşturuluyor...",
+    "joining": "Bağlanılıyor..."
+  },
+  "room": {
+    "title": "Köprü Odası: {code}",
+    "peerWaiting": "Bağlantı bekleniyor... Bu ekranı diğer cihazda açın:",
+    "copyLink": "Bağlantıyı Kopyala",
+    "linkCopied": "Oda bağlantısı panoya kopyalandı!",
+    "status": {
+      "idle": "Beklemede",
+      "connecting": "Bağlanıyor...",
+      "connected": "Bağlantı Kuruldu",
+      "disconnected": "Bağlantı Kesildi"
+    },
+    "warningBar": "Her iki cihazda da bu sayfa açık kalmalıdır. Dosya transferi başladıktan sonra arka planda devam edebilir.",
+    "exitWarning": "Aktif bir bağlantınız var. Ayrılmak istediğinize emin misiniz?",
+    "leaveButton": "Ayrıl / Kapat"
+  },
+  "clipboard": {
+    "title": "Pano Köprüsü",
+    "placeholder": "Göndermek istediğiniz metni yazın veya buraya yapıştırın...",
+    "send": "Metni Gönder",
+    "history": "Geçmiş Metinler",
+    "empty": "Henüz paylaşılan bir metin yok.",
+    "copy": "Kopyala",
+    "copied": "Panoya kopyalandı!",
+    "received": "Yeni pano metni alındı!",
+    "autoSync": "Otomatik Senkronizasyon",
+    "autoSyncTip": "Pano izinleri etkinse, kopyalanan metinler otomatik olarak diğer cihaza aktarılır.",
+    "permissionDenied": "Pano erişim izni reddedildi. Lütfen tarayıcı ayarlarından izin verin."
+  },
+  "files": {
+    "title": "Dosya Transferi",
+    "dragDrop": "Dosyayı buraya sürükleyin veya seçmek için tıklayın",
+    "limitTip": "Maksimum dosya boyutu: 50 MB",
+    "sending": "Gönderiliyor...",
+    "receiving": "Alınıyor...",
+    "completed": "Tamamlandı!",
+    "failed": "Transfer Başarısız!",
+    "bgNotice": "Tarayıcı sekmesini kapatabilirsiniz. Service Worker arka planda transfere devam edecektir.",
+    "exceedLimit": "Dosya boyutu 50 MB limitini aşamaz.",
+    "download": "İndir",
+    "status": "Durum: {status}"
+  },
+  "pwa": {
+    "installPrompt": "Uygulamayı Yükle",
+    "installDesc": "Arka planda kesintisiz transfer için Köprü'yü PWA olarak yükleyin.",
+    "bgTransferNotification": "Transfer arka planda devam ediyor."
+  }
+}
