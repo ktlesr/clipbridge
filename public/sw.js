@@ -6,6 +6,20 @@ const ASSETS_TO_CACHE = [
   "/icons/icon-512.png"
 ];
 
+function canShowNotifications() {
+  return self.Notification && self.Notification.permission === "granted";
+}
+
+function showTransferNotification(title, options) {
+  if (!canShowNotifications()) {
+    return Promise.resolve();
+  }
+
+  return self.registration.showNotification(title, options).catch((err) => {
+    console.warn("[SW] Notification skipped:", err);
+  });
+}
+
 // Install Event
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -72,7 +86,7 @@ self.addEventListener("message", (event) => {
     const { status, fileName } = event.data;
 
     if (status === "started") {
-      self.registration.showNotification("ClipBridge", {
+      showTransferNotification("ClipBridge", {
         body: `Transferring "${fileName}" in the background...`,
         icon: "/icons/icon-192.png",
         tag: "transfer-progress",
@@ -85,7 +99,7 @@ self.addEventListener("message", (event) => {
         notifications.forEach((notification) => notification.close());
       });
 
-      self.registration.showNotification("ClipBridge", {
+      showTransferNotification("ClipBridge", {
         body: `Transfer of "${fileName}" completed!`,
         icon: "/icons/icon-192.png",
         tag: "transfer-complete",
@@ -96,7 +110,7 @@ self.addEventListener("message", (event) => {
         notifications.forEach((notification) => notification.close());
       });
 
-      self.registration.showNotification("ClipBridge", {
+      showTransferNotification("ClipBridge", {
         body: `Transfer of "${fileName}" failed.`,
         icon: "/icons/icon-192.png",
         tag: "transfer-failed",
