@@ -309,23 +309,23 @@ export default function RoomPage({ params }: RoomPageProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md p-4 dark:bg-black/80"
           >
             <motion.div
               initial={{ scale: 0.95, y: 15 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 15 }}
-              className="relative bg-zinc-900 border border-neutral-800 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl flex flex-col items-center gap-5"
+              className="relative w-full max-w-sm rounded-3xl border border-foreground/10 bg-background/95 p-6 text-center shadow-2xl flex flex-col items-center gap-5"
             >
               <div className="h-14 w-14 rounded-2xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 shadow-md">
                 <AlertTriangle className="h-7 w-7 text-amber-500 animate-pulse" />
               </div>
 
               <div className="flex flex-col gap-2">
-                <h3 className="font-bold text-lg text-white">
+                <h3 className="font-bold text-lg text-foreground">
                   {t("exitConfirmTitle")}
                 </h3>
-                <p className="text-sm text-neutral-400 leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {t("exitWarning")}
                 </p>
               </div>
@@ -335,7 +335,7 @@ export default function RoomPage({ params }: RoomPageProps) {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setShowExitConfirm(false)}
-                  className="flex-1 rounded-2xl bg-neutral-800 hover:bg-neutral-700 py-3 text-sm font-semibold text-white transition-all cursor-pointer"
+                  className="flex-1 rounded-2xl bg-foreground/10 hover:bg-foreground/15 py-3 text-sm font-semibold text-foreground transition-all cursor-pointer"
                 >
                   {t("cancel")}
                 </motion.button>

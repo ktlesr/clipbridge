@@ -140,44 +140,44 @@ export function QRScanner({ isOpen, onClose, onScanSuccess }: QRScannerProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md p-4 dark:bg-black/80"
         >
           <motion.div
             initial={{ scale: 0.95, y: 15 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.95, y: 15 }}
-            className="relative bg-zinc-900 border border-neutral-800 rounded-3xl overflow-hidden w-full max-w-md shadow-2xl p-6 flex flex-col items-center gap-6"
+            className="relative w-full max-w-md overflow-hidden rounded-3xl border border-foreground/10 bg-background/95 p-6 shadow-2xl flex flex-col items-center gap-6"
           >
             {/* Header */}
-            <div className="flex justify-between items-center w-full border-b border-neutral-800 pb-3">
+            <div className="flex justify-between items-center w-full border-b border-foreground/10 pb-3">
               <div className="flex items-center gap-2">
                 <Camera className="h-5 w-5 text-indigo-400" />
-                <h3 className="font-bold text-lg text-white">Scan Room QR Code</h3>
+                <h3 className="font-bold text-lg text-foreground">Scan Room QR Code</h3>
               </div>
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-full bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                className="p-1.5 rounded-full bg-foreground/5 text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-colors cursor-pointer"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
             {/* Viewfinder / Camera Viewport */}
-            <div className="relative w-full aspect-square bg-black rounded-2xl overflow-hidden border border-neutral-800 flex items-center justify-center">
+            <div className="relative w-full aspect-square bg-black rounded-2xl overflow-hidden border border-foreground/10 flex items-center justify-center">
               {isLoading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-zinc-900 z-10">
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background z-10">
                   <Loader2 className="h-8 w-8 text-indigo-500 animate-spin" />
-                  <p className="text-xs text-neutral-400 font-semibold">Starting camera...</p>
+                  <p className="text-xs text-muted-foreground font-semibold">Starting camera...</p>
                 </div>
               )}
 
               {scanError ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-zinc-900 z-10 p-6 text-center">
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-background z-10 p-6 text-center">
                   <AlertCircle className="h-10 w-10 text-red-500" />
-                  <p className="text-sm font-semibold text-neutral-200">{scanError}</p>
+                  <p className="text-sm font-semibold text-foreground">{scanError}</p>
                   <button
                     onClick={onClose}
-                    className="mt-2 text-xs font-semibold px-4 py-2 bg-neutral-800 text-white rounded-xl hover:bg-neutral-700 transition-all cursor-pointer"
+                    className="mt-2 text-xs font-semibold px-4 py-2 bg-foreground/10 text-foreground rounded-xl hover:bg-foreground/15 transition-all cursor-pointer"
                   >
                     Close
                   </button>
@@ -213,10 +213,10 @@ export function QRScanner({ isOpen, onClose, onScanSuccess }: QRScannerProps) {
 
             {/* Instruction */}
             <div className="text-center">
-              <p className="text-sm text-neutral-300 font-medium">
+              <p className="text-sm text-foreground font-medium">
                 Position the QR code inside the viewfinder frame.
               </p>
-              <p className="text-xs text-neutral-500 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 It will scan automatically once detected.
               </p>
             </div>
