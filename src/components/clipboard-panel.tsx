@@ -90,10 +90,8 @@ export function ClipboardPanel({ connectionStatus, history, sendText }: Clipboar
           const currentText = await navigator.clipboard.readText();
           if (currentText && currentText !== lastText && currentText.trim()) {
             lastText = currentText;
-            // Check if this text is already the top of history to prevent feedback loops
-            if (history.length === 0 || history[0].text !== currentText) {
-              sendText(currentText);
-            }
+            setText(currentText);
+            toast.info("Pano içeriği otomatik yapıştırıldı!");
           }
         }
       } catch (e) {
@@ -102,7 +100,7 @@ export function ClipboardPanel({ connectionStatus, history, sendText }: Clipboar
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [autoSync, connectionStatus, history, sendText]);
+  }, [autoSync, connectionStatus]);
 
   const isConnected = connectionStatus === "connected";
 

@@ -38,8 +38,8 @@
     "copy": "Copy",
     "copied": "Copied to clipboard!",
     "received": "New clipboard text received!",
-    "autoSync": "Auto Synchronization",
-    "autoSyncTip": "If clipboard permissions are enabled, copied texts will automatically sync to the other device.",
+    "autoSync": "Auto Paste",
+    "autoSyncTip": "If clipboard permissions are enabled, copied texts will automatically fill the input box.",
     "permissionDenied": "Clipboard access permission denied. Please enable it in browser settings."
   },
   "files": {

@@ -38,8 +38,8 @@
     "copy": "Kopyala",
     "copied": "Panoya kopyalandı!",
     "received": "Yeni pano metni alındı!",
-    "autoSync": "Otomatik Senkronizasyon",
-    "autoSyncTip": "Pano izinleri etkinse, kopyalanan metinler otomatik olarak diğer cihaza aktarılır.",
+    "autoSync": "Otomatik Yapıştır",
+    "autoSyncTip": "Pano izinleri etkinse, kopyaladığınız metinler otomatik olarak paylaşım kutusuna doldurulur.",
     "permissionDenied": "Pano erişim izni reddedildi. Lütfen tarayıcı ayarlarından izin verin."
   },
   "files": {
