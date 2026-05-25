@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { LanguageThemeToggle } from "@/components/language-theme-toggle";
 import { motion } from "framer-motion";
-import { ArrowLeft, Shield, Cpu, RefreshCw, Layers, Info, Sparkles, Image, Zap } from "lucide-react";
+import { ArrowLeft, Shield, Cpu, RefreshCw, Layers, Info, Sparkles, Image, Zap, Plus, Minus } from "lucide-react";
 
 export default function AboutPage() {
   const t = useTranslations("about");
@@ -83,7 +83,7 @@ export default function AboutPage() {
           animate="show"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
         >
-          {/* Card 1: 100% P2P */}
+          {/* Card 1: P2P */}
           <motion.div
             variants={itemVariants}
             className="glass rounded-3xl p-6 border border-foreground/5 hover:border-indigo-500/20 transition-all group flex flex-col gap-4 shadow-sm"
@@ -226,17 +226,20 @@ export default function AboutPage() {
                 <tr className="hover:bg-foreground/[0.01] transition-colors">
                   <td className="py-4.5 px-6 font-bold text-foreground">{t("comparison.privacy")}</td>
                   <td className="py-4.5 px-6 bg-indigo-500/5">
-                    <span className="inline-flex items-center bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                    <span className="inline-flex items-center gap-1.5 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                      <Plus className="h-3 w-3 shrink-0" />
                       {t("comparison.privacyVal")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Minus className="h-3 w-3 shrink-0" />
                       {t("comparison.privacyValAlt")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Plus className="h-3 w-3 shrink-0" />
                       {t("comparison.privacyValAirdrop")}
                     </span>
                   </td>
@@ -246,17 +249,20 @@ export default function AboutPage() {
                 <tr className="hover:bg-foreground/[0.01] transition-colors">
                   <td className="py-4.5 px-6 font-bold text-foreground">{t("comparison.quality")}</td>
                   <td className="py-4.5 px-6 bg-indigo-500/5">
-                    <span className="inline-flex items-center bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                    <span className="inline-flex items-center gap-1.5 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                      <Plus className="h-3 w-3 shrink-0" />
                       {t("comparison.qualityVal")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Minus className="h-3 w-3 shrink-0" />
                       {t("comparison.qualityValAlt")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Plus className="h-3 w-3 shrink-0" />
                       {t("comparison.qualityValAirdrop")}
                     </span>
                   </td>
@@ -266,17 +272,20 @@ export default function AboutPage() {
                 <tr className="hover:bg-foreground/[0.01] transition-colors">
                   <td className="py-4.5 px-6 font-bold text-foreground">{t("comparison.platforms")}</td>
                   <td className="py-4.5 px-6 bg-indigo-500/5">
-                    <span className="inline-flex items-center bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                    <span className="inline-flex items-center gap-1.5 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                      <Plus className="h-3 w-3 shrink-0" />
                       {t("comparison.platformsVal")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Minus className="h-3 w-3 shrink-0" />
                       {t("comparison.platformsValAlt")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Minus className="h-3 w-3 shrink-0" />
                       {t("comparison.platformsValAirdrop")}
                     </span>
                   </td>
@@ -286,17 +295,20 @@ export default function AboutPage() {
                 <tr className="hover:bg-foreground/[0.01] transition-colors">
                   <td className="py-4.5 px-6 font-bold text-foreground">{t("comparison.fileSize")}</td>
                   <td className="py-4.5 px-6 bg-indigo-500/5">
-                    <span className="inline-flex items-center bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                    <span className="inline-flex items-center gap-1.5 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                      <Plus className="h-3 w-3 shrink-0" />
                       {t("comparison.fileSizeVal")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Minus className="h-3 w-3 shrink-0" />
                       {t("comparison.fileSizeValAlt")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Minus className="h-3 w-3 shrink-0" />
                       {t("comparison.fileSizeValAirdrop")}
                     </span>
                   </td>
@@ -306,17 +318,20 @@ export default function AboutPage() {
                 <tr className="hover:bg-foreground/[0.01] transition-colors">
                   <td className="py-4.5 px-6 font-bold text-foreground">{t("comparison.setup")}</td>
                   <td className="py-4.5 px-6 bg-indigo-500/5">
-                    <span className="inline-flex items-center bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                    <span className="inline-flex items-center gap-1.5 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">
+                      <Plus className="h-3 w-3 shrink-0" />
                       {t("comparison.setupVal")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Minus className="h-3 w-3 shrink-0" />
                       {t("comparison.setupValAlt")}
                     </span>
                   </td>
                   <td className="py-4.5 px-6">
-                    <span className="inline-flex items-center bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                    <span className="inline-flex items-center gap-1.5 bg-foreground/5 text-muted-foreground px-2.5 py-1 rounded-xl text-xs">
+                      <Minus className="h-3 w-3 shrink-0" />
                       {t("comparison.setupValAirdrop")}
                     </span>
                   </td>
@@ -331,7 +346,7 @@ export default function AboutPage() {
       <footer className="w-full flex justify-center mt-16 z-20">
         <div className="glass rounded-2xl px-5 py-3 flex items-center gap-2 max-w-xl text-[11px] md:text-xs text-muted-foreground font-semibold border border-foreground/5 shadow-sm">
           <Info className="h-4.5 w-4.5 text-indigo-500 shrink-0" />
-          <span>ClipBridge P2P technology utilizes direct browser channels. No logs, no data retention, 100% private.</span>
+          <span>ClipBridge P2P technology utilizes direct browser channels. Clipboard content and files are not stored server-side.</span>
         </div>
       </footer>
     </div>
