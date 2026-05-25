@@ -28,7 +28,15 @@
     },
     "warningBar": "Her iki cihazda da bu sayfa açık kalmalıdır. Dosya transferi başladıktan sonra arka planda devam edebilir.",
     "exitWarning": "Aktif bir bağlantınız var. Ayrılmak istediğinize emin misiniz?",
-    "leaveButton": "Ayrıl / Kapat"
+    "leaveButton": "Ayrıl / Kapat",
+    "exitConfirmTitle": "Odayı Kapat?",
+    "cancel": "Vazgeç",
+    "confirmLeave": "Ayrıl",
+    "errorTitleNotFound": "Oda Bulunamadı",
+    "errorDescNotFound": "Bağlanmak istediğiniz oda bulunamadı veya süresi dolmuş. Lütfen yeni bir oda oluşturun.",
+    "errorTitleFull": "Oda Dolu",
+    "errorDescFull": "Bu odada zaten iki aktif cihaz var. Bağlanabilmek için diğer cihazlardan birinin çıkması gerekir.",
+    "backToHome": "Anasayfaya Dön"
   },
   "clipboard": {
     "title": "Pano Köprüsü",

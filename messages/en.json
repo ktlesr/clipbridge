@@ -28,7 +28,15 @@
     },
     "warningBar": "This page must remain open on both devices. Once started, file transfers can run in the background.",
     "exitWarning": "You have an active connection. Are you sure you want to leave?",
-    "leaveButton": "Leave / Close"
+    "leaveButton": "Leave / Close",
+    "exitConfirmTitle": "Close Room?",
+    "cancel": "Cancel",
+    "confirmLeave": "Leave",
+    "errorTitleNotFound": "Room Not Found",
+    "errorDescNotFound": "The room you tried to join does not exist or has expired. Please return to the homepage and create a new room.",
+    "errorTitleFull": "Room Full",
+    "errorDescFull": "There are already two devices connected to this room. One of them must leave before you can join.",
+    "backToHome": "Back to Home"
   },
   "clipboard": {
     "title": "Clipboard Bridge",

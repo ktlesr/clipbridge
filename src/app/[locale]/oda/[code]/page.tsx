@@ -10,8 +10,8 @@ import { FilePanel } from "@/components/file-panel";
 import { InfoBar } from "@/components/info-bar";
 import { LanguageThemeToggle } from "@/components/language-theme-toggle";
 import { QRCodeSVG } from "qrcode.react";
-import { motion } from "framer-motion";
-import { Copy, Check, ArrowLeft, LogOut, Loader2, Link2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Copy, Check, ArrowLeft, LogOut, Loader2, Link2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 
 interface RoomPageProps {
@@ -27,6 +27,7 @@ export default function RoomPage({ params }: RoomPageProps) {
 
   const [copiedLink, setCopiedLink] = useState(false);
   const [roomUrl, setRoomUrl] = useState("");
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   const handlePeerDisconnect = () => {
     toast.error("Peer disconnected. Returning to waiting state.");
@@ -36,6 +37,7 @@ export default function RoomPage({ params }: RoomPageProps) {
     connectionStatus,
     clipboardHistory,
     fileTransfer,
+    signalingError,
     sendText,
     sendFile,
   } = useWebRTC(code, handlePeerDisconnect);
@@ -79,12 +81,16 @@ export default function RoomPage({ params }: RoomPageProps) {
   };
 
   const handleLeave = () => {
-    if (
-      connectionStatus !== "connected" ||
-      confirm(t("exitWarning"))
-    ) {
+    if (connectionStatus !== "connected" && fileTransfer.status !== "transferring") {
       router.push("/");
+    } else {
+      setShowExitConfirm(true);
     }
+  };
+
+  const confirmLeave = () => {
+    setShowExitConfirm(false);
+    router.push("/");
   };
 
   const isConnected = connectionStatus === "connected";
@@ -123,7 +129,36 @@ export default function RoomPage({ params }: RoomPageProps) {
 
       {/* Main Panel Content */}
       <div className="flex-1 flex flex-col justify-center items-center w-full z-10 py-4">
-        {isConnected ? (
+        {signalingError ? (
+          /* Signaling Error Screen (Room Not Found / Room Full) */
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="glass rounded-3xl p-8 w-full max-w-md text-center shadow-2xl relative border-red-500/20 flex flex-col items-center gap-6"
+          >
+            <div className="h-16 w-16 rounded-2xl bg-red-500/10 flex items-center justify-center border border-red-500/20 shadow-md">
+              <AlertTriangle className="h-8 w-8 text-red-500 animate-pulse" />
+            </div>
+            
+            <div className="flex flex-col gap-2">
+              <h2 className="text-2xl font-bold tracking-tight text-foreground">
+                {signalingError === "room-not-found" ? t("errorTitleNotFound") : t("errorTitleFull")}
+              </h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {signalingError === "room-not-found" ? t("errorDescNotFound") : t("errorDescFull")}
+              </p>
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => router.push("/")}
+              className="w-full rounded-2xl bg-indigo-600 hover:bg-indigo-500 py-4 font-semibold text-white transition-all shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/35 cursor-pointer"
+            >
+              {t("backToHome")}
+            </motion.button>
+          </motion.div>
+        ) : isConnected ? (
           /* Connected Dual-Panel layout */
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -243,6 +278,56 @@ export default function RoomPage({ params }: RoomPageProps) {
           <span>ClipBridge P2P</span>
         </div>
       </footer>
+      {/* Custom Confirmation Modal */}
+      <AnimatePresence>
+        {showExitConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 15 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 15 }}
+              className="relative bg-zinc-900 border border-neutral-800 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl flex flex-col items-center gap-5"
+            >
+              <div className="h-14 w-14 rounded-2xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 shadow-md">
+                <AlertTriangle className="h-7 w-7 text-amber-500 animate-pulse" />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <h3 className="font-bold text-lg text-white">
+                  {t("exitConfirmTitle")}
+                </h3>
+                <p className="text-sm text-neutral-400 leading-relaxed">
+                  {t("exitWarning")}
+                </p>
+              </div>
+
+              <div className="flex gap-3 w-full mt-2">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setShowExitConfirm(false)}
+                  className="flex-1 rounded-2xl bg-neutral-800 hover:bg-neutral-700 py-3 text-sm font-semibold text-white transition-all cursor-pointer"
+                >
+                  {t("cancel")}
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={confirmLeave}
+                  className="flex-1 rounded-2xl bg-red-600 hover:bg-red-500 py-3 text-sm font-semibold text-white transition-all shadow-lg shadow-red-600/25 cursor-pointer"
+                >
+                  {t("confirmLeave")}
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -33,6 +33,7 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
     status: "idle",
   });
   const [peerId, setPeerId] = useState<string | null>(null);
+  const [signalingError, setSignalingError] = useState<string | null>(null);
 
   const socketRef = useRef<WebSocket | null>(null);
   const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
@@ -343,6 +344,8 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
     const connect = () => {
       if (isUnmounted) return;
 
+      setSignalingError(null);
+
       const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
       const wsHost = process.env.NEXT_PUBLIC_WS_URL || `${window.location.hostname}:3001`;
       const wsUrl = `${protocol}//${wsHost}`;
@@ -408,10 +411,14 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
             if (onPeerDisconnectedRef.current) onPeerDisconnectedRef.current();
           } else if (data.type === "error") {
             toast.error(`Signaling error: ${data.message}`);
+            setSignalingError(data.message);
             if (data.message === "room-full" || data.message === "room-not-found") {
               setConnectionStatus("disconnected");
               // Do not try to reconnect for fatal business-logic errors
               attempts = maxAttempts;
+              if (data.message === "room-not-found") {
+                localStorage.removeItem("lastRoomCode");
+              }
             }
           }
         } catch (err) {
@@ -482,6 +489,7 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
     clipboardHistory,
     fileTransfer,
     peerId,
+    signalingError,
     sendText,
     sendFile,
   };
