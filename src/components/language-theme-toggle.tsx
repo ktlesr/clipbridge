@@ -71,7 +71,7 @@ export function LanguageThemeToggle() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="glass absolute right-0 mt-2 w-56 origin-top-right rounded-2xl p-2 shadow-xl focus:outline-none z-50 overflow-hidden"
+            className="absolute right-0 mt-2 w-56 origin-top-right rounded-2xl border border-foreground/10 bg-white/95 p-2 shadow-2xl backdrop-blur-xl focus:outline-none z-50 overflow-hidden dark:bg-zinc-950/95"
           >
             {/* Language Selection */}
             <div className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
