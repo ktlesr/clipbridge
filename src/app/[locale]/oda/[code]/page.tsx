@@ -1,6 +1,7 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { useWebRTC } from "@/hooks/useWebRTC";
@@ -18,8 +19,8 @@ interface RoomPageProps {
 }
 
 export default function RoomPage({ params }: RoomPageProps) {
-  const resolvedParams = use(params);
-  const code = resolvedParams.code.toUpperCase();
+  const routeParams = useParams();
+  const code = (routeParams?.code as string || "").toUpperCase();
 
   const t = useTranslations("room");
   const router = useRouter();

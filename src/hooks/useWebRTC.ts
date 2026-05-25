@@ -40,6 +40,12 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
   const receivedChunksRef = useRef<ArrayBuffer[]>([]);
   const currentFileMetaRef = useRef<{ name: string; size: number; mime: string } | null>(null);
 
+  // Store the callback in a mutable ref to prevent dependency changes from re-triggering connection resets
+  const onPeerDisconnectedRef = useRef(onPeerDisconnected);
+  useEffect(() => {
+    onPeerDisconnectedRef.current = onPeerDisconnected;
+  }, [onPeerDisconnected]);
+
   // Clean up WebRTC peer connection
   const cleanupPeerConnection = useCallback(() => {
     if (dataChannelRef.current) {
@@ -406,7 +412,7 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
             toast.warning("Peer disconnected.");
             cleanupPeerConnection();
             setPeerId(null);
-            if (onPeerDisconnected) onPeerDisconnected();
+            if (onPeerDisconnectedRef.current) onPeerDisconnectedRef.current();
           } else if (data.type === "error") {
             toast.error(`Signaling error: ${data.message}`);
             if (data.message === "room-full" || data.message === "room-not-found") {
@@ -454,7 +460,7 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
       }
       cleanupPeerConnection();
     };
-  }, [roomCode, initPeerConnection, cleanupPeerConnection, onPeerDisconnected]);
+  }, [roomCode, initPeerConnection, cleanupPeerConnection]);
 
   return {
     connectionStatus,
