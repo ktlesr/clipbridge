@@ -46,7 +46,18 @@
     "empty": "Henüz paylaşılan bir metin yok.",
     "copy": "Kopyala",
     "copied": "Panoya kopyalandı!",
-    "received": "Yeni pano metni alındı!"
+    "received": "Yeni pano metni alındı!",
+    "importBtn": "Geçmişi Yükle (.json)",
+    "exportBtn": "Geçmişi İndir (.json)",
+    "clearBtn": "Geçmişi Temizle",
+    "emptyExport": "Aktarılacak geçmiş bulunamadı.",
+    "exportSuccess": "Geçmiş başarıyla indirildi!",
+    "importInvalid": "Dosyada geçerli pano kaydı bulunamadı.",
+    "importFailed": "Dosya okunamadı veya biçimi geçersiz.",
+    "clearConfirm": "Yerel pano geçmişinizi silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
+    "clearSuccess": "Yerel pano geçmişi temizlendi.",
+    "clearConfirmTitle": "Geçmişi Temizle?",
+    "cancel": "Vazgeç"
   },
   "files": {
     "title": "Dosya Transferi",

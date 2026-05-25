@@ -1,22 +1,99 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { ClipboardItem, ConnectionStatus } from "@/hooks/useWebRTC";
-import { Send, Copy, Check, History, Sparkles } from "lucide-react";
+import { Send, Copy, Check, History, Sparkles, Upload, Download, Trash2, AlertTriangle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
 interface ClipboardPanelProps {
+  roomCode: string;
   connectionStatus: ConnectionStatus;
   history: ClipboardItem[];
   sendText: (text: string) => void;
+  importHistory: (importedItems: ClipboardItem[]) => Promise<void>;
+  clearHistory: () => Promise<void>;
 }
 
-export function ClipboardPanel({ connectionStatus, history, sendText }: ClipboardPanelProps) {
+export function ClipboardPanel({
+  roomCode,
+  connectionStatus,
+  history,
+  sendText,
+  importHistory,
+  clearHistory,
+}: ClipboardPanelProps) {
   const t = useTranslations("clipboard");
   const [text, setText] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleExport = () => {
+    if (history.length === 0) {
+      toast.error(t("emptyExport") || "No history to export.");
+      return;
+    }
+    try {
+      const dataStr = JSON.stringify(history, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+      const exportFileDefaultName = `clipbridge_history_${roomCode}.json`;
+      
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+      toast.success(t("exportSuccess") || "History exported successfully!");
+    } catch (err) {
+      toast.error("Failed to export history.");
+    }
+  };
+
+  const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const imported = JSON.parse(event.target?.result as string);
+        if (!Array.isArray(imported)) {
+          throw new Error("Invalid format");
+        }
+
+        const validItems = imported.filter(item => 
+          item && 
+          typeof item.id === "string" && 
+          typeof item.text === "string" && 
+          typeof item.timestamp === "number" && 
+          typeof item.isSent === "boolean"
+        );
+
+        if (validItems.length === 0) {
+          toast.error(t("importInvalid") || "No valid history items found.");
+          return;
+        }
+
+        await importHistory(validItems);
+      } catch (err) {
+        console.error("Failed to parse import file:", err);
+        toast.error(t("importFailed") || "Failed to parse history file.");
+      }
+      e.target.value = "";
+    };
+    reader.readAsText(file);
+  };
+
+  const handleClear = () => {
+    setShowClearConfirm(true);
+  };
+
+  const confirmClear = async () => {
+    setShowClearConfirm(false);
+    await clearHistory();
+    toast.success(t("clearSuccess"));
+  };
 
   const handleSend = () => {
     if (!text.trim()) return;
@@ -74,9 +151,48 @@ export function ClipboardPanel({ connectionStatus, history, sendText }: Clipboar
 
       {/* Clipboard History List */}
       <div className="flex flex-col gap-3 flex-1 overflow-hidden">
-        <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          <History className="h-4.5 w-4.5" />
-          {t("history")}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <History className="h-4.5 w-4.5" />
+            {t("history")}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImportFile}
+              accept=".json"
+              className="hidden"
+            />
+            {/* Import Button */}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={!isConnected}
+              className="p-1.5 rounded-xl bg-foreground/5 text-muted-foreground hover:text-indigo-500 hover:bg-indigo-500/10 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed border border-foreground/5"
+              title={t("importBtn")}
+            >
+              <Upload className="h-3.5 w-3.5" />
+            </button>
+            {/* Export Button */}
+            <button
+              onClick={handleExport}
+              disabled={history.length === 0}
+              className="p-1.5 rounded-xl bg-foreground/5 text-muted-foreground hover:text-indigo-500 hover:bg-indigo-500/10 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed border border-foreground/5"
+              title={t("exportBtn")}
+            >
+              <Download className="h-3.5 w-3.5" />
+            </button>
+            {/* Clear Button */}
+            <button
+              onClick={handleClear}
+              disabled={history.length === 0}
+              className="p-1.5 rounded-xl bg-foreground/5 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed border border-foreground/5"
+              title={t("clearBtn")}
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </button>
+          </div>
         </div>
         
         <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-2 max-h-[300px]">
@@ -126,6 +242,57 @@ export function ClipboardPanel({ connectionStatus, history, sendText }: Clipboar
           </AnimatePresence>
         </div>
       </div>
+      
+      {/* Custom Confirmation Modal for Clearing History */}
+      <AnimatePresence>
+        {showClearConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 15 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 15 }}
+              className="relative bg-zinc-900 border border-neutral-800 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl flex flex-col items-center gap-5"
+            >
+              <div className="h-14 w-14 rounded-2xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 shadow-md">
+                <AlertTriangle className="h-7 w-7 text-amber-500 animate-pulse" />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <h3 className="font-bold text-lg text-white">
+                  {t("clearConfirmTitle")}
+                </h3>
+                <p className="text-sm text-neutral-400 leading-relaxed">
+                  {t("clearConfirm")}
+                </p>
+              </div>
+
+              <div className="flex gap-3 w-full mt-2">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setShowClearConfirm(false)}
+                  className="flex-1 rounded-2xl bg-neutral-800 hover:bg-neutral-700 py-3 text-sm font-semibold text-white transition-all cursor-pointer"
+                >
+                  {t("cancel")}
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={confirmClear}
+                  className="flex-1 rounded-2xl bg-red-600 hover:bg-red-500 py-3 text-sm font-semibold text-white transition-all shadow-lg shadow-red-600/25 cursor-pointer"
+                >
+                  {t("clearBtn")}
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

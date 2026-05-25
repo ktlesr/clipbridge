@@ -46,7 +46,18 @@
     "empty": "No clipboard items shared yet.",
     "copy": "Copy",
     "copied": "Copied to clipboard!",
-    "received": "New clipboard text received!"
+    "received": "New clipboard text received!",
+    "importBtn": "Import History (.json)",
+    "exportBtn": "Export History (.json)",
+    "clearBtn": "Clear History",
+    "emptyExport": "No history to export.",
+    "exportSuccess": "History exported successfully!",
+    "importInvalid": "No valid history items found in file.",
+    "importFailed": "Failed to parse history file.",
+    "clearConfirm": "Are you sure you want to clear your local clipboard history? This cannot be undone.",
+    "clearSuccess": "Local clipboard history cleared.",
+    "clearConfirmTitle": "Clear History?",
+    "cancel": "Cancel"
   },
   "files": {
     "title": "File Transfer",

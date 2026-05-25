@@ -41,6 +41,8 @@ export default function RoomPage({ params }: RoomPageProps) {
     signalingError,
     sendText,
     sendFile,
+    importHistory,
+    clearHistory,
   } = useWebRTC(code, handlePeerDisconnect);
 
   // Get current room URL on mount
@@ -174,9 +176,12 @@ export default function RoomPage({ params }: RoomPageProps) {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full items-stretch">
               <ClipboardPanel
+                roomCode={code}
                 connectionStatus={connectionStatus}
                 history={clipboardHistory}
                 sendText={sendText}
+                importHistory={importHistory}
+                clearHistory={clearHistory}
               />
               <FilePanel
                 connectionStatus={connectionStatus}

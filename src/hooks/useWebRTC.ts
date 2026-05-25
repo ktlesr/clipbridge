@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { toast } from "sonner";
+import { saveHistoryItem, saveHistoryItems, getRoomHistory, clearRoomHistory } from "@/utils/db";
 
 export type ConnectionStatus = "idle" | "connecting" | "connected" | "disconnected";
 
@@ -47,6 +48,17 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
     onPeerDisconnectedRef.current = onPeerDisconnected;
   }, [onPeerDisconnected]);
 
+  // Load room history from IndexedDB on mount or roomCode change
+  useEffect(() => {
+    if (roomCode) {
+      getRoomHistory(roomCode).then((items) => {
+        setClipboardHistory(items);
+      });
+    } else {
+      setClipboardHistory([]);
+    }
+  }, [roomCode]);
+
   // Clean up WebRTC peer connection
   const cleanupPeerConnection = useCallback(() => {
     if (dataChannelRef.current) {
@@ -75,12 +87,17 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
         payload: text,
       }));
 
+      // Save to IndexedDB for client-side persistence
+      if (roomCode) {
+        saveHistoryItem(roomCode, item);
+      }
+
       setClipboardHistory(prev => [item, ...prev]);
       toast.success("Text sent to peer!");
     } else {
       toast.error("No active connection. Cannot send text.");
     }
-  }, []);
+  }, [roomCode]);
 
   // Send file to peer
   const sendFile = useCallback(async (file: File) => {
@@ -220,9 +237,26 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
       channel.binaryType = "arraybuffer";
       channel.bufferedAmountLowThreshold = BUFFERED_AMOUNT_LOW_THRESHOLD;
 
-      channel.onopen = () => {
+      channel.onopen = async () => {
         console.log("[WebRTC] Data Channel Opened");
         setConnectionStatus("connected");
+
+        // Trigger P2P history synchronization
+        if (roomCode) {
+          try {
+            const localHistory = await getRoomHistory(roomCode);
+            // Invert isSent so it is correct for the receiver's perspective
+            const payload = localHistory.map(item => ({ ...item, isSent: !item.isSent }));
+            if (channel.readyState === "open") {
+              channel.send(JSON.stringify({
+                type: "history-sync",
+                payload,
+              }));
+            }
+          } catch (err) {
+            console.error("Failed to trigger P2P history sync on open:", err);
+          }
+        }
       };
 
       channel.onclose = () => {
@@ -230,7 +264,7 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
         cleanupPeerConnection();
       };
 
-      channel.onmessage = (event) => {
+      channel.onmessage = async (event) => {
         if (typeof event.data === "string") {
           try {
             const msg = JSON.parse(event.data);
@@ -242,8 +276,54 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
                 timestamp: Date.now(),
                 isSent: false,
               };
+              if (roomCode) {
+                saveHistoryItem(roomCode, item);
+              }
               setClipboardHistory(prev => [item, ...prev]);
               toast.info("New text received from peer!");
+            } else if (msg.type === "history-sync") {
+              if (roomCode) {
+                const localHistory = await getRoomHistory(roomCode);
+                const remoteHistory = msg.payload as ClipboardItem[];
+                
+                // Merge histories (deduplicate by ID, keeping local items over remote)
+                const mergedMap = new Map<string, ClipboardItem>();
+                remoteHistory.forEach(item => mergedMap.set(item.id, item));
+                localHistory.forEach(item => mergedMap.set(item.id, item));
+                
+                const mergedList = Array.from(mergedMap.values())
+                  .sort((a, b) => b.timestamp - a.timestamp)
+                  .slice(0, 50);
+
+                await saveHistoryItems(roomCode, mergedList);
+                setClipboardHistory(mergedList);
+
+                // Acknowledge sync back with the merged list mapped for the peer
+                if (channel.readyState === "open") {
+                  channel.send(JSON.stringify({
+                    type: "history-sync-ack",
+                    payload: mergedList.map(item => ({ ...item, isSent: !item.isSent })),
+                  }));
+                }
+                console.log("[WebRTC] P2P History Sync merged items:", mergedList.length);
+              }
+            } else if (msg.type === "history-sync-ack") {
+              if (roomCode) {
+                const localHistory = await getRoomHistory(roomCode);
+                const remoteHistory = msg.payload as ClipboardItem[];
+                
+                const mergedMap = new Map<string, ClipboardItem>();
+                remoteHistory.forEach(item => mergedMap.set(item.id, item));
+                localHistory.forEach(item => mergedMap.set(item.id, item));
+                
+                const mergedList = Array.from(mergedMap.values())
+                  .sort((a, b) => b.timestamp - a.timestamp)
+                  .slice(0, 50);
+
+                await saveHistoryItems(roomCode, mergedList);
+                setClipboardHistory(mergedList);
+                console.log("[WebRTC] P2P History Sync Acknowledged, total items:", mergedList.length);
+              }
             } else if (msg.type === "file-meta") {
               // File transfer header
               currentFileMetaRef.current = {
@@ -329,7 +409,7 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
     }
 
     return pc;
-  }, [cleanupPeerConnection]);
+  }, [cleanupPeerConnection, roomCode]);
 
   // Handle room signaling WebSocket with robust auto-reconnection
   useEffect(() => {
@@ -484,6 +564,39 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
     };
   }, [roomCode, initPeerConnection, cleanupPeerConnection]);
 
+  // Import history from file
+  const importHistory = useCallback(async (importedItems: ClipboardItem[]) => {
+    if (!roomCode) return;
+    
+    const localHistory = await getRoomHistory(roomCode);
+    const mergedMap = new Map<string, ClipboardItem>();
+    importedItems.forEach(item => mergedMap.set(item.id, item));
+    localHistory.forEach(item => mergedMap.set(item.id, item));
+    
+    const mergedList = Array.from(mergedMap.values())
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 50);
+
+    await saveHistoryItems(roomCode, mergedList);
+    setClipboardHistory(mergedList);
+
+    // Instantly sync the imported history to peer if connected
+    if (dataChannelRef.current && dataChannelRef.current.readyState === "open") {
+      const payload = mergedList.map(item => ({ ...item, isSent: !item.isSent }));
+      dataChannelRef.current.send(JSON.stringify({
+        type: "history-sync",
+        payload,
+      }));
+    }
+  }, [roomCode]);
+
+  // Clear history locally
+  const clearHistory = useCallback(async () => {
+    if (!roomCode) return;
+    await clearRoomHistory(roomCode);
+    setClipboardHistory([]);
+  }, [roomCode]);
+
   return {
     connectionStatus,
     clipboardHistory,
@@ -492,5 +605,7 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
     signalingError,
     sendText,
     sendFile,
+    importHistory,
+    clearHistory,
   };
 }
