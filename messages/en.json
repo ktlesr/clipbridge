@@ -13,7 +13,8 @@
     "invalidCode": "Please enter a valid room code.",
     "creating": "Creating room...",
     "joining": "Connecting...",
-    "recentRoom": "Quick Rejoin Recent Room"
+    "recentRoom": "Quick Rejoin Recent Room",
+    "aboutLink": "About"
   },
   "room": {
     "title": "Bridge Room: {code}",
@@ -76,5 +77,45 @@
     "installPrompt": "Install App",
     "installDesc": "Install ClipBridge as a PWA for seamless background transfers.",
     "bgTransferNotification": "Transfer is running in the background."
+  },
+  "about": {
+    "title": "About & Our Technology",
+    "subtitle": "Serverless, Storage-free, and Limitless P2P Transfer",
+    "description": "ClipBridge is a modern Progressive Web App (PWA) that builds direct, end-to-end encrypted bridges between your devices. Unlike classic cloud clipboard or transfer services, your data is never sent to our servers or written to disk.",
+    "backHome": "Back to Home",
+    "comparison": {
+      "title": "Why Are We Different?",
+      "subtitle": "Comparison table with other solutions",
+      "feature": "Feature",
+      "clipbridge": "ClipBridge (P2P)",
+      "cloudApps": "Cloud Apps (Keep/Telegram)",
+      "airdrop": "AirDrop / Quick Share",
+      "privacy": "End-to-End Privacy",
+      "privacyVal": "Absolute (100% P2P, No Logs)",
+      "privacyValAlt": "None (Stored on Cloud Servers)",
+      "privacyValAirdrop": "Absolute (But Close Proximity Only)",
+      "platforms": "Cross-Platform",
+      "platformsVal": "All Devices (Mobile & Desktop Web)",
+      "platformsValAlt": "Requires Account Sign-in",
+      "platformsValAirdrop": "Limited to Ecosystem (Apple/Android)",
+      "fileSize": "File Transfer Limits",
+      "fileSizeVal": "No Limits (50MB+ WebRTC)",
+      "fileSizeValAlt": "Low limits or storage quotas",
+      "fileSizeValAirdrop": "No Limits",
+      "setup": "Setup & Account",
+      "setupVal": "Instant (Zero Setup / QR Scan)",
+      "setupValAlt": "Requires Account / Password",
+      "setupValAirdrop": "Bluetooth/Wi-Fi pairing required"
+    },
+    "features": {
+      "p2pTitle": "100% Peer-to-Peer",
+      "p2pDesc": "Data flows directly between devices using WebRTC. The server only handles connection handshakes; your actual clipboard content and files never touch the server.",
+      "indexedDbTitle": "Local IndexedDB History",
+      "indexedDbDesc": "For your privacy, history is saved in your browser's local sandbox instead of the cloud. Devices automatically merge timelines upon connecting.",
+      "exportTitle": "Export & Import Backup",
+      "exportDesc": "Export your entire clipboard history into a clean JSON file with one click, or import backups instantly without server verification.",
+      "pwaTitle": "PWA & Background Support",
+      "pwaDesc": "Install ClipBridge as an application on your phone or PC. Service Worker support ensures your transfers run seamlessly in the background."
+    }
   }
 }

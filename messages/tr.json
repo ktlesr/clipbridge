@@ -13,7 +13,8 @@
     "invalidCode": "Lütfen geçerli bir oda kodu girin.",
     "creating": "Oda oluşturuluyor...",
     "joining": "Bağlanılıyor...",
-    "recentRoom": "Son Odaya Hızlı Katıl"
+    "recentRoom": "Son Odaya Hızlı Katıl",
+    "aboutLink": "Hakkımızda"
   },
   "room": {
     "title": "Köprü Odası: {code}",
@@ -76,5 +77,45 @@
     "installPrompt": "Uygulamayı Yükle",
     "installDesc": "Arka planda kesintisiz transfer için Köprü'yü PWA olarak yükleyin.",
     "bgTransferNotification": "Transfer arka planda devam ediyor."
+  },
+  "about": {
+    "title": "Hakkımızda & Teknolojimiz",
+    "subtitle": "Bulutsuz, Depolamasız ve Sınırsız P2P Transfer",
+    "description": "ClipBridge, cihazlarınız arasında doğrudan, uçtan uca şifreli veri köprüleri kuran modern bir PWA uygulamasıdır. Klasik bulut pano veya dosya gönderme sistemlerinin aksine, verileriniz hiçbir sunucuya uğramaz veya diske kaydedilmez.",
+    "backHome": "Anasayfaya Dön",
+    "comparison": {
+      "title": "Neden Farklıyız?",
+      "subtitle": "Diğer yöntemlerle karşılaştırma tablosu",
+      "feature": "Özellik",
+      "clipbridge": "ClipBridge (P2P)",
+      "cloudApps": "Bulut Uygulamaları (Keep/Telegram)",
+      "airdrop": "AirDrop / Quick Share",
+      "privacy": "Uçtan Uca Gizlilik",
+      "privacyVal": "Tam (%100 P2P, Kayıt Yok)",
+      "privacyValAlt": "Yok (Sunucularda Saklanır)",
+      "privacyValAirdrop": "Tam (Sadece Yakın Mesafe)",
+      "platforms": "Çapraz Platform",
+      "platformsVal": "Tüm Cihazlar (Mobil & Masaüstü Web)",
+      "platformsValAlt": "Hesap Girişi Gerektirir",
+      "platformsValAirdrop": "Sadece Apple/Android Ekosisteminde",
+      "fileSize": "Dosya Transfer Limiti",
+      "fileSizeVal": "Sınırsız (50MB+ WebRTC)",
+      "fileSizeValAlt": "Düşük Limitler veya Kota Aşımı",
+      "fileSizeValAirdrop": "Sınırsız",
+      "setup": "Kurulum & Kayıt",
+      "setupVal": "Anında (Sıfır Kurulum / QR Kod)",
+      "setupValAlt": "Hesap Açma & Şifre Gerektirir",
+      "setupValAirdrop": "Bluetooth/Wi-Fi Eşleşmesi Şart"
+    },
+    "features": {
+      "p2pTitle": "Tamamen Uçtan Uca (P2P)",
+      "p2pDesc": "Cihazlar arasında veri transferi WebRTC teknolojisiyle doğrudan kurulur. Sunucu sadece sinyal alışverişini yönetir; pano içeriğiniz veya dosyalarınız sunucuya asla gitmez.",
+      "indexedDbTitle": "Yerel IndexedDB Geçmişi",
+      "indexedDbDesc": "Gizliliğiniz için bulut yerine tarayıcınızın güvenli yerel belleğini kullanıyoruz. Cihazlarınız bağlandığı an, geçmiş verileri kendi aralarında birleştirilir.",
+      "exportTitle": "Yedekle ve İçe Aktar",
+      "exportDesc": "Tüm pano geçmişinizi tek tıkla şifreli veya yapılandırılmış JSON dosyası olarak bilgisayarınıza indirebilir, daha sonra geri yükleyebilirsiniz.",
+      "pwaTitle": "PWA & Arka Plan Desteği",
+      "pwaDesc": "ClipBridge'i telefonunuza veya bilgisayarınıza bir uygulama olarak yükleyin. Service Worker teknolojimiz sayesinde dosyalarınız arka planda aktarılmaya devam etsin."
+    }
   }
 }

@@ -119,7 +119,20 @@ export default function HomePage() {
           </span>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }} 
+          animate={{ opacity: 1, x: 0 }}
+          className="flex items-center gap-3"
+        >
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => router.push("/about")}
+            className="glass flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold text-foreground/80 hover:text-foreground transition-colors cursor-pointer"
+          >
+            <HelpCircle className="h-4 w-4 text-indigo-500" />
+            <span className="hidden sm:inline">{t("aboutLink")}</span>
+          </motion.button>
           <LanguageThemeToggle />
         </motion.div>
       </header>
