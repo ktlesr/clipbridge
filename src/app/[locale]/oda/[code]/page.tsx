@@ -131,7 +131,7 @@ export default function RoomPage({ params }: RoomPageProps) {
       </header>
 
       {/* Main Panel Content */}
-      <div className="flex-1 flex flex-col justify-center items-center w-full z-10 py-4">
+      <div className={`flex-1 flex flex-col ${isConnected ? "justify-start" : "justify-center"} items-center w-full z-10 py-4`}>
         {signalingError ? (
           /* Signaling Error Screen (Room Not Found / Room Full) */
           <motion.div
