@@ -105,17 +105,25 @@
       "setup": "Setup & Account",
       "setupVal": "Instant (Zero Setup / QR Scan)",
       "setupValAlt": "Requires Account / Password",
-      "setupValAirdrop": "Bluetooth/Wi-Fi pairing required"
+      "setupValAirdrop": "Bluetooth/Wi-Fi pairing required",
+      "quality": "Image / File Quality",
+      "qualityVal": "Lossless (100% Uncompressed / Raw)",
+      "qualityValAlt": "Low (Compressed Quality)",
+      "qualityValAirdrop": "Lossless (100% Raw)"
     },
     "features": {
       "p2pTitle": "100% Peer-to-Peer",
       "p2pDesc": "Data flows directly between devices using WebRTC. The server only handles connection handshakes; your actual clipboard content and files never touch the server.",
+      "losslessTitle": "Lossless / Raw Quality",
+      "losslessDesc": "Unlike WhatsApp or cloud services, your images and files are never compressed during transit. They reach the peer device byte-for-byte in original raw quality and resolution.",
       "indexedDbTitle": "Local IndexedDB History",
       "indexedDbDesc": "For your privacy, history is saved in your browser's local sandbox instead of the cloud. Devices automatically merge timelines upon connecting.",
       "exportTitle": "Export & Import Backup",
       "exportDesc": "Export your entire clipboard history into a clean JSON file with one click, or import backups instantly without server verification.",
       "pwaTitle": "PWA & Background Support",
-      "pwaDesc": "Install ClipBridge as an application on your phone or PC. Service Worker support ensures your transfers run seamlessly in the background."
+      "pwaDesc": "Install ClipBridge as an application on your phone or PC. Service Worker support ensures your transfers run seamlessly in the background.",
+      "signupTitle": "Zero Sign-up & Accounts",
+      "signupDesc": "No emails, phone numbers, or passwords required. Simply enter the room code or scan the QR code to pair your devices instantly."
     }
   }
 }
