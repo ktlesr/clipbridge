@@ -150,6 +150,7 @@ wss.on("connection", (ws: WebSocket) => {
 
             const peer = room.clients.find(c => c.sessionId !== sessionId);
             if (peer && peer.ws.readyState === WebSocket.OPEN) {
+              peer.ws.send(JSON.stringify({ type: "peer-joined", peerId: clientId }));
               ws.send(JSON.stringify({ type: "peer-info", peerId: peer.id }));
             }
 
