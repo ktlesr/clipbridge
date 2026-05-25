@@ -115,3 +115,22 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.5);
 }
+
+/* Viewfinder Scan Line Animation */
+@keyframes scan-line {
+  0% {
+    top: 5%;
+  }
+  50% {
+    top: 95%;
+  }
+  100% {
+    top: 5%;
+  }
+}
+
+.animate-scan-line {
+  position: absolute;
+  animation: scan-line 3s ease-in-out infinite;
+}
+

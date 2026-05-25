@@ -5,8 +5,9 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { LanguageThemeToggle } from "@/components/language-theme-toggle";
 import { motion, AnimatePresence } from "framer-motion";
-import { HelpCircle, ArrowRight, Compass, PlusCircle, Laptop, ShieldCheck } from "lucide-react";
+import { HelpCircle, ArrowRight, Compass, PlusCircle, Laptop, ShieldCheck, QrCode } from "lucide-react";
 import { toast } from "sonner";
+import { QRScanner } from "@/components/qr-scanner";
 
 export default function HomePage() {
   const t = useTranslations("home");
@@ -16,6 +17,7 @@ export default function HomePage() {
   const [roomCode, setRoomCode] = useState("");
   const [loadingType, setLoadingType] = useState<"create" | "join" | null>(null);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
 
   // Capture PWA installation trigger
   useEffect(() => {
@@ -177,8 +179,17 @@ export default function HomePage() {
                 onChange={(e) => setRoomCode(e.target.value.replace(/[^a-zA-Z0-9]/g, ""))}
                 placeholder={t("joinRoomPlaceholder")}
                 disabled={loadingType !== null}
-                className="w-full rounded-2xl border border-foreground/10 bg-background/50 pl-12 pr-4 py-4 text-sm font-semibold tracking-wider text-center uppercase focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all placeholder:normal-case placeholder:tracking-normal"
+                className="w-full rounded-2xl border border-foreground/10 bg-background/50 pl-12 pr-12 py-4 text-sm font-semibold tracking-wider text-center uppercase focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all placeholder:normal-case placeholder:tracking-normal"
               />
+              <button
+                type="button"
+                onClick={() => setIsQRScannerOpen(true)}
+                disabled={loadingType !== null}
+                className="absolute right-3 p-2 rounded-xl text-muted-foreground hover:text-indigo-500 hover:bg-indigo-500/10 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                title="Scan QR Code"
+              >
+                <QrCode className="h-5 w-5" />
+              </button>
             </div>
 
             <motion.button
@@ -244,6 +255,17 @@ export default function HomePage() {
           <span>Direct P2P Encrypted Connection. No server storage.</span>
         </motion.div>
       </footer>
+
+      <QRScanner
+        isOpen={isQRScannerOpen}
+        onClose={() => setIsQRScannerOpen(false)}
+        onScanSuccess={(code) => {
+          setIsQRScannerOpen(false);
+          setRoomCode(code);
+          toast.success("QR Code scanned! Joining room...");
+          router.push(`/oda/${code}`);
+        }}
+      />
     </div>
   );
 }

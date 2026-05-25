@@ -449,8 +449,30 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
 
     connect();
 
+    const handleVisibilityOrNetworkChange = () => {
+      if (isUnmounted) return;
+      
+      const isSocketClosed = !socket || socket.readyState === WebSocket.CLOSED || socket.readyState === WebSocket.CLOSING;
+      const isVisible = document.visibilityState === "visible";
+      const isOnline = typeof navigator !== "undefined" ? navigator.onLine : true;
+
+      if (isVisible && isOnline && isSocketClosed) {
+        console.log("[WebSocket] Device returned to foreground or went online. Reconnecting...");
+        attempts = 0;
+        if (reconnectTimeout) {
+          clearTimeout(reconnectTimeout);
+        }
+        connect();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityOrNetworkChange);
+    window.addEventListener("online", handleVisibilityOrNetworkChange);
+
     return () => {
       isUnmounted = true;
+      document.removeEventListener("visibilitychange", handleVisibilityOrNetworkChange);
+      window.removeEventListener("online", handleVisibilityOrNetworkChange);
       if (socket) {
         socketRef.current = null;
         socket.close();
