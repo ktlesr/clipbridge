@@ -11,7 +11,7 @@ import { InfoBar } from "@/components/info-bar";
 import { LanguageThemeToggle } from "@/components/language-theme-toggle";
 import { QRCodeSVG } from "qrcode.react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Copy, Check, ArrowLeft, LogOut, Loader2, Link2, AlertTriangle } from "lucide-react";
+import { Copy, Check, ArrowLeft, LogOut, Loader2, Link2, AlertTriangle, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { TransferHero } from "@/components/transfer-hero";
 
@@ -24,11 +24,13 @@ export default function RoomPage({ params }: RoomPageProps) {
   const code = (routeParams?.code as string || "").toUpperCase();
 
   const t = useTranslations("room");
+  const tHome = useTranslations("home");
   const router = useRouter();
 
   const [copiedLink, setCopiedLink] = useState(false);
   const [roomUrl, setRoomUrl] = useState("");
   const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const [pendingRoute, setPendingRoute] = useState<"/" | "/about">("/");
 
   const handlePeerDisconnect = () => {
     toast.error("Peer disconnected. Returning to waiting state.");
@@ -83,17 +85,20 @@ export default function RoomPage({ params }: RoomPageProps) {
       });
   };
 
-  const handleLeave = () => {
+  const handleNavigateAway = (route: "/" | "/about") => {
     if (connectionStatus !== "connected" && fileTransfer.status !== "transferring") {
-      router.push("/");
+      router.push(route);
     } else {
+      setPendingRoute(route);
       setShowExitConfirm(true);
     }
   };
 
+  const handleLeave = () => handleNavigateAway("/");
+
   const confirmLeave = () => {
     setShowExitConfirm(false);
-    router.push("/");
+    router.push(pendingRoute);
   };
 
   const isConnected = connectionStatus === "connected";
@@ -118,6 +123,15 @@ export default function RoomPage({ params }: RoomPageProps) {
         </h1>
 
         <div className="flex items-center gap-3">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handleNavigateAway("/about")}
+            className="glass flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-bold text-foreground/80 hover:text-foreground transition-colors cursor-pointer"
+          >
+            <HelpCircle className="h-4 w-4 text-indigo-500" />
+            <span className="hidden sm:inline">{tHome("aboutLink")}</span>
+          </motion.button>
           <LanguageThemeToggle />
           <motion.button
             whileHover={{ scale: 1.02 }}

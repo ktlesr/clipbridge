@@ -53,7 +53,7 @@ export default function AboutPage() {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col gap-20 z-10 py-4 max-w-5xl mx-auto w-full">
+      <div className="flex-1 flex flex-col gap-8 z-10 py-4 max-w-5xl mx-auto w-full">
         
         {/* Hero Section */}
         <motion.div
