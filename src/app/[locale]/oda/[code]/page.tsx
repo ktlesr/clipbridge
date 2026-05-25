@@ -107,22 +107,22 @@ export default function RoomPage({ params }: RoomPageProps) {
   return (
     <div className="flex-1 flex flex-col justify-between px-6 py-6 md:px-12 md:py-8 max-w-7xl mx-auto w-full">
       {/* Top Header */}
-      <header className="flex justify-between items-center w-full z-20 mb-6">
+      <header className="flex items-center justify-center gap-2 sm:justify-between sm:gap-3 w-full z-20 mb-6">
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleLeave}
-          className="glass flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground cursor-pointer"
+          className="glass flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground cursor-pointer sm:gap-2 sm:px-4"
         >
           <ArrowLeft className="h-4 w-4" />
-          <span>Anasayfa</span>
+          <span className="hidden sm:inline">Anasayfa</span>
         </motion.button>
 
         <h1 className="hidden sm:block text-md font-bold tracking-tight bg-foreground/10 px-4 py-1.5 rounded-full border border-foreground/5">
           Room: <span className="text-indigo-600 dark:text-indigo-400 font-extrabold">{code}</span>
         </h1>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
