@@ -9,7 +9,7 @@ services:
       - "3000"
     environment:
       - PORT=3000
-      - NEXT_PUBLIC_WS_URL=localhost:3001
+      - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL:-localhost:3001}
     restart: always
 
   signaling:

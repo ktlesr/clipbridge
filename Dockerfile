@@ -49,6 +49,7 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
 # Server will run using node standalone mode, but we can override it in docker-compose
 CMD ["node", "server.js"]
