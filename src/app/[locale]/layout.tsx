@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 import { PWARegister } from "@/components/pwa-register";
+import { AnalyticsBeacon } from "@/components/analytics-beacon";
 import "@/app/globals.css";
 
 const inter = Inter({
@@ -90,6 +91,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             </div>
             <Toaster position="top-right" richColors theme="system" closeButton />
             <PWARegister />
+            <AnalyticsBeacon />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

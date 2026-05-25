@@ -18,6 +18,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+data/analytics.json
+data/analytics.json.tmp
 
 # Local env files
 .env*.local
