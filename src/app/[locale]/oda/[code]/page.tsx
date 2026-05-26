@@ -324,7 +324,7 @@ export default function RoomPage({ params }: RoomPageProps) {
       </div>
 
       {/* Footer Status Display */}
-      <footer className="w-full flex justify-between items-center z-20 mt-6 text-xs text-muted-foreground font-bold uppercase tracking-wider">
+      <footer className="w-full flex justify-between items-center z-20 mt-6 text-xs text-muted-foreground font-bold tracking-wide">
         <div className="flex items-center gap-2 bg-foreground/5 px-3.5 py-1.5 rounded-full border border-foreground/5 shadow-sm">
           <span className={`h-2 w-2 rounded-full ${isConnected ? "bg-green-500 animate-pulse" : isConnecting ? "bg-amber-500 animate-ping" : "bg-red-500"}`} />
           <span className="text-[10px]">
