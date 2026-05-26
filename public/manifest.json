@@ -1,8 +1,8 @@
 {
   "name": "ClipBridge",
   "short_name": "Köprü",
-  "theme_color": "#4f46e5",
-  "background_color": "#09090b",
+  "theme_color": "#7c3aed",
+  "background_color": "#06060c",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
