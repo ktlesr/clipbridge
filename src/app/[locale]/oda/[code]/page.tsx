@@ -131,7 +131,7 @@ export default function RoomPage({ params }: RoomPageProps) {
           <span className="hidden sm:inline">Anasayfa</span>
         </motion.button>
 
-        <h1 className="hidden sm:block text-sm font-extrabold tracking-wide bg-foreground/5 px-4.5 py-2 rounded-full border border-foreground/10 font-display shadow-sm">
+        <h1 className="hidden sm:block text-sm font-extrabold tracking-wide bg-foreground/5 px-6 py-2 rounded-full border border-foreground/10 font-display shadow-sm">
           {t("title", { code })}
         </h1>
 
@@ -275,7 +275,7 @@ export default function RoomPage({ params }: RoomPageProps) {
                         whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={handleRejoinRecentRoom}
-                        className="flex items-center justify-between gap-3 w-full rounded-2xl bg-primary/8 hover:bg-primary/12 border border-primary/15 px-4.5 py-3.5 text-xs font-bold text-primary cursor-pointer transition-all shadow-sm"
+                        className="flex items-center justify-between gap-3 w-full rounded-2xl bg-primary/8 hover:bg-primary/12 border border-primary/15 px-5 py-3.5 text-xs font-bold text-primary cursor-pointer transition-all shadow-sm"
                       >
                         <span className="flex items-center gap-1.5">
                           <Sparkles className="h-4 w-4 text-primary" />

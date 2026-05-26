@@ -113,9 +113,9 @@ export default function HomePage() {
           onClick={() => router.push("/")}
           className="flex items-center gap-2.5 cursor-pointer group"
         >
-          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-lg shadow-primary/20 relative transition-transform duration-300">
-            <div className="absolute inset-0.5 rounded-[14px] bg-background/20 backdrop-blur-sm" />
-            <span className="relative text-white font-black text-xl tracking-wider">K</span>
+          <div className="h-10 w-10 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 relative transition-transform duration-300">
+            <div className="absolute inset-0.5 rounded-[14px] bg-background/25 backdrop-blur-sm" />
+            <span className="relative text-primary-foreground font-black text-xl tracking-wider">K</span>
           </div>
           <span className="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 font-display">
             ClipBridge
@@ -172,7 +172,7 @@ export default function HomePage() {
                 router.push(`/oda/${lastRoom}`);
               }}
               disabled={loadingType !== null}
-              className="mb-6 flex items-center justify-between gap-3 w-full rounded-2xl bg-primary/8 hover:bg-primary/12 border border-primary/15 px-4.5 py-3.5 text-xs font-bold text-primary cursor-pointer transition-all disabled:opacity-50 shadow-sm"
+              className="mb-6 flex items-center justify-between gap-3 w-full rounded-2xl bg-primary/8 hover:bg-primary/12 border border-primary/15 px-5 py-3.5 text-xs font-bold text-primary cursor-pointer transition-all disabled:opacity-50 shadow-sm"
             >
               <span className="flex items-center gap-1.5">
                 <Sparkles className="h-4 w-4 text-primary animate-pulse" />
@@ -275,7 +275,7 @@ export default function HomePage() {
               exit={{ opacity: 0, y: 20 }}
               className="glass rounded-[24px] p-5 flex flex-col sm:flex-row justify-between items-center gap-4 max-w-lg w-full border-primary/20 shadow-xl relative overflow-hidden"
             >
-              <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-primary to-purple-600" />
+              <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-primary to-primary/40" />
               <div className="flex items-start gap-3">
                 <Laptop className="h-5.5 w-5.5 text-primary shrink-0 mt-0.5" />
                 <div className="text-center sm:text-left">
@@ -287,7 +287,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleInstallApp}
-                className="rounded-xl bg-primary hover:bg-primary/95 text-white text-xs font-bold px-4.5 py-2.5 cursor-pointer shadow-md shadow-primary/20 font-display shrink-0"
+                className="rounded-xl bg-primary hover:bg-primary/95 text-white text-xs font-bold px-5 py-2.5 cursor-pointer shadow-md shadow-primary/20 font-display shrink-0"
               >
                 {tPwa("installPrompt")}
               </motion.button>

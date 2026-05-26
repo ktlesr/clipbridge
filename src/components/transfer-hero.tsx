@@ -25,12 +25,12 @@ export function TransferHero({ connectionStatus, fileTransfer }: TransferHeroPro
   // Floating packets config when idle
   const idlePackets = [
     { icon: <Clipboard className="h-3.5 w-3.5" />, color: "text-primary", delay: 0, y: -10 },
-    { icon: <FileText className="h-3.5 w-3.5" />, color: "text-purple-500", delay: 1.8, y: 10 },
-    { icon: <Image className="h-3.5 w-3.5" />, color: "text-pink-500", delay: 3.2, y: -6 },
+    { icon: <FileText className="h-3.5 w-3.5" />, color: "text-blue-500", delay: 1.8, y: 10 },
+    { icon: <Image className="h-3.5 w-3.5" />, color: "text-emerald-500", delay: 3.2, y: -6 },
   ];
 
   return (
-    <div className="w-full bg-gradient-to-r from-primary/5 via-transparent to-purple-500/5 dark:from-primary/[0.02] dark:to-purple-500/[0.02] border border-foreground/5 rounded-[32px] p-6 relative overflow-hidden backdrop-blur-[2px] shadow-sm flex flex-col items-center">
+    <div className="w-full bg-gradient-to-r from-primary/5 via-transparent to-primary/5 border border-foreground/5 rounded-[32px] p-6 relative overflow-hidden backdrop-blur-[2px] shadow-sm flex flex-col items-center">
       
       {/* Background glowing waves */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-1/2 bg-primary/5 dark:bg-primary/[0.01] blur-3xl pointer-events-none rounded-full" />
@@ -131,14 +131,14 @@ export function TransferHero({ connectionStatus, fileTransfer }: TransferHeroPro
         {/* Device B: Mobile */}
         <div className="relative group flex flex-col items-center gap-2">
           {/* Glowing Aura */}
-          <div className="absolute -inset-2 rounded-3xl bg-purple-500/10 dark:bg-purple-500/5 blur-md opacity-75 group-hover:opacity-100 transition duration-500" />
+          <div className="absolute -inset-2 rounded-3xl bg-primary/10 dark:bg-primary/5 blur-md opacity-75 group-hover:opacity-100 transition duration-500" />
           
           <motion.div 
             animate={isTransferring && fileTransfer.direction === "receive" ? { scale: [1, 1.05, 1] } : {}}
             transition={{ repeat: Infinity, duration: 1.5 }}
             className="relative flex items-center justify-center w-20 h-20 bg-white/70 dark:bg-zinc-900/60 border border-neutral-200/80 dark:border-neutral-800/80 rounded-2xl shadow-md backdrop-blur-md"
           >
-            <Smartphone className="h-9 w-9 text-purple-650 dark:text-purple-400" />
+            <Smartphone className="h-9 w-9 text-primary/80" />
             
             {/* Active Status Ring */}
             <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)] animate-pulse" />
@@ -155,7 +155,7 @@ export function TransferHero({ connectionStatus, fileTransfer }: TransferHeroPro
             initial={{ width: 0 }}
             animate={{ width: `${progressPercent}%` }}
             transition={{ duration: 0.1 }}
-            className="h-full bg-gradient-to-r from-primary to-purple-600 shadow-[0_0_12px_2px_rgba(139,92,246,0.35)]"
+            className="h-full bg-gradient-to-r from-primary to-primary/60 shadow-sm shadow-primary/25"
           />
         </div>
       )}

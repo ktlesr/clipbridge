@@ -216,7 +216,7 @@ export function ClipboardPanel({
                   className={`flex flex-col gap-2.5 p-4 rounded-2xl border text-sm relative group bg-background/30 backdrop-blur-[2px] transition-all hover:bg-background/40 ${
                     item.isSent 
                       ? "border-primary/10 hover:border-primary/20" 
-                      : "border-pink-500/10 hover:border-pink-500/20"
+                      : "border-blue-500/10 hover:border-blue-500/20"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-4">
@@ -241,7 +241,7 @@ export function ClipboardPanel({
                     <span className={`px-2.5 py-0.5 rounded-full font-black text-[9px] ${
                       item.isSent 
                         ? "bg-primary/8 text-primary" 
-                        : "bg-pink-500/8 text-pink-600 dark:text-pink-400"
+                        : "bg-blue-500/8 text-blue-600 dark:text-blue-400"
                     }`}>
                       {item.isSent ? "Sent" : "Received"}
                     </span>

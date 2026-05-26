@@ -161,14 +161,14 @@ export function FilePanel({ connectionStatus, fileTransfer, sendFile }: FilePane
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPercent}%` }}
                 transition={{ duration: 0.1 }}
-                className="bg-gradient-to-r from-primary to-purple-650 h-2 rounded-full shadow-[0_0_8px_rgba(139,92,246,0.3)]"
+                className="bg-gradient-to-r from-primary to-primary/60 h-2 rounded-full shadow-sm shadow-primary/20"
               />
             </div>
 
             <div className="flex justify-between items-center text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-1">
               <span>{formatBytes(fileTransfer.progress)} / {formatBytes(fileTransfer.size)}</span>
               {fileTransfer.direction === "receive" && (
-                <span className="text-pink-500 animate-pulse font-black text-[9px] tracking-wide">{t("bgNotice")}</span>
+                <span className="text-blue-500 animate-pulse font-black text-[9px] tracking-wide">{t("bgNotice")}</span>
               )}
             </div>
           </motion.div>

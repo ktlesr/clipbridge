@@ -85,10 +85,15 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         >
           <NextIntlClientProvider messages={messages} locale={locale}>
             <div className="relative min-h-screen overflow-hidden bg-background">
-              {/* Organic background blobs for premium aesthetic */}
-              <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/15 blur-[120px] dark:bg-indigo-500/5 animate-blob-slow" />
-              <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-pink-500/10 blur-[120px] dark:bg-pink-500/5 animate-blob-slow [animation-delay:3s]" />
-              <div className="absolute top-[30%] right-[20%] w-[35%] h-[35%] rounded-full bg-purple-500/10 blur-[100px] dark:bg-purple-500/5 animate-blob-slow [animation-delay:6s]" />
+              {/* Organic background mesh gradient blobs matching reference mockup */}
+              <div className="absolute top-[5%] left-[-15%] w-[65%] h-[65%] rounded-full bg-[#0ea5e9]/32 blur-[130px] dark:bg-[#0ea5e9]/12 animate-blob-slow" />
+              <div className="absolute bottom-[-15%] left-[-5%] w-[55%] h-[55%] rounded-full bg-[#10b981]/25 blur-[130px] dark:bg-[#10b981]/10 animate-blob-slow [animation-delay:5s]" />
+              <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-[#3b82f6]/26 blur-[140px] dark:bg-[#3b82f6]/10 animate-blob-slow [animation-delay:10s]" />
+              <div className="absolute bottom-[-10%] right-[-15%] w-[60%] h-[60%] rounded-full bg-[#06b6d4]/26 blur-[120px] dark:bg-[#06b6d4]/10 animate-blob-slow [animation-delay:15s]" />
+              <div className="absolute top-[20%] right-[15%] w-[50%] h-[50%] rounded-full bg-[#14b8a6]/20 blur-[130px] dark:bg-[#14b8a6]/8 animate-blob-slow [animation-delay:20s]" />
+
+              {/* Grainy Noise Overlay */}
+              <div className="noise-overlay" />
 
               {/* Main content grid */}
               <main className="relative z-10 flex min-h-screen flex-col">
