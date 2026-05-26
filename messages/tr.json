@@ -14,7 +14,8 @@
     "creating": "Oda oluşturuluyor...",
     "joining": "Bağlanılıyor...",
     "recentRoom": "Son Odaya Hızlı Katıl",
-    "aboutLink": "Hakkımızda"
+    "aboutLink": "Hakkımızda",
+    "securityBadge": "Doğrudan P2P şifreli bağlantı. Sunucuda veri saklanmaz."
   },
   "room": {
     "title": "Köprü Odası: {code}",

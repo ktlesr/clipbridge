@@ -14,7 +14,8 @@
     "creating": "Creating room...",
     "joining": "Connecting...",
     "recentRoom": "Quick Rejoin Recent Room",
-    "aboutLink": "About"
+    "aboutLink": "About",
+    "securityBadge": "Direct P2P encrypted connection. No server storage."
   },
   "room": {
     "title": "Bridge Room: {code}",

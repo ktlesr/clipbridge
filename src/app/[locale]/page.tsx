@@ -299,7 +299,7 @@ export default function HomePage() {
           className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium"
         >
           <ShieldCheck className="h-4 w-4 text-emerald-500" />
-          <span>Direct P2P Encrypted Connection. No server storage.</span>
+          <span>{t("securityBadge")}</span>
         </motion.div>
       </footer>
 

@@ -132,7 +132,7 @@ export default function RoomPage({ params }: RoomPageProps) {
         </motion.button>
 
         <h1 className="hidden sm:block text-md font-bold tracking-tight bg-foreground/10 px-4 py-1.5 rounded-full border border-foreground/5">
-          Room: <span className="text-indigo-600 dark:text-indigo-400 font-extrabold">{code}</span>
+          {t("title", { code })}
         </h1>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
