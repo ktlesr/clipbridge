@@ -125,6 +125,8 @@
       "pwaDesc": "ClipBridge'i telefonunuza veya bilgisayarınıza bir uygulama olarak yükleyin. Service Worker teknolojimiz sayesinde dosyalarınız arka planda aktarılmaya devam etsin.",
       "signupTitle": "Kayıtsız & Şifresiz Giriş",
       "signupDesc": "E-posta veya şifre girmenize gerek kalmadan, sadece oda kodunu girerek veya QR kodu taratarak cihazlar arasında anında köprü kurabilirsiniz."
-    }
+    },
+    "whyBadge": "NEDEN CLIPBRIDGE?",
+    "footerNote": "ClipBridge P2P teknolojisi doğrudan tarayıcı kanallarını kullanır. Pano içeriği ve dosyalar sunucu tarafında depolanmaz."
   }
 }

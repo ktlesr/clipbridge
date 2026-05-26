@@ -125,6 +125,8 @@
       "pwaDesc": "Install ClipBridge as an application on your phone or PC. Service Worker support ensures your transfers run seamlessly in the background.",
       "signupTitle": "Zero Sign-up & Accounts",
       "signupDesc": "No emails, phone numbers, or passwords required. Simply enter the room code or scan the QR code to pair your devices instantly."
-    }
+    },
+    "whyBadge": "WHY CLIPBRIDGE?",
+    "footerNote": "ClipBridge P2P technology utilizes direct browser channels. Clipboard content and files are not stored server-side."
   }
 }

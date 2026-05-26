@@ -70,7 +70,7 @@ export default function AboutPage() {
         >
           <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary/5 text-primary text-xs font-bold border border-primary/10 shadow-sm">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
-            <span className="font-display tracking-wide uppercase text-[10px]">Why ClipBridge?</span>
+            <span className="font-display tracking-wide uppercase text-[10px]">{t("whyBadge")}</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight font-display bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground to-foreground/75">
             {t("title")}
@@ -356,7 +356,7 @@ export default function AboutPage() {
       <footer className="w-full flex justify-center mt-16 z-20">
         <div className="glass rounded-2xl px-5 py-3.5 flex items-center gap-2 max-w-xl text-[11px] md:text-xs text-muted-foreground font-semibold border border-primary/10 shadow-sm">
           <Info className="h-4.5 w-4.5 text-primary shrink-0 animate-pulse" />
-          <span>ClipBridge P2P technology utilizes direct browser channels. Clipboard content and files are not stored server-side.</span>
+          <span>{t("footerNote")}</span>
         </div>
       </footer>
     </div>
