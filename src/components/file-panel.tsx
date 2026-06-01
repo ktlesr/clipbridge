@@ -31,7 +31,7 @@ export function FilePanel({ connectionStatus, fileTransfer, sendFile }: FilePane
   const isConnected = connectionStatus === "connected";
 
   const processFile = (file: File) => {
-    if (file.size > 50 * 1024 * 1024) {
+    if (file.size > 250 * 1024 * 1024) {
       toast.error(t("exceedLimit"));
       return;
     }

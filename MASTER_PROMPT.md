@@ -75,7 +75,7 @@ Kesinlikle aşağıdaki teknolojiler kullanılacaktır:
 - **Arka plan transferi:** Uygulama PWA olarak yüklüyse ve sekme kapanırsa, Service Worker transferi devralır.
 - Kullanıcıya **“Transfer arka planda devam ediyor”** bildirimi gösterilir.
 - Alıcı taraf çevrimiçi olduğunda dosya parçaları birleştirilir ve indirilir.
-- Ücretsiz sürümde dosya boyutu sınırı 50 MB olacaktır.
+- Ücretsiz sürümde dosya boyutu sınırı 250 MB olacaktır.
 - Sunucuya hiçbir dosya yüklenmez.
 
 #### Bağlantı Durumu
@@ -100,7 +100,7 @@ Sonraki aşamada aşağıdaki özellikler eklenebilir:
 
 - Kalıcı oda adı rezervasyonu
 - DB’de `rooms` tablosu
-- 50 MB üzeri dosya transfer limitleri
+- 250 MB üzeri dosya transfer limitleri
 - Çoklu cihaz bağlantısı
 
 ---

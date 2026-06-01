@@ -123,8 +123,8 @@ export function useWebRTC(roomCode: string | null, onPeerDisconnected?: () => vo
       return;
     }
 
-    if (file.size > 50 * 1024 * 1024) {
-      toast.error("File size exceeds 50 MB limit.");
+    if (file.size > 250 * 1024 * 1024) {
+      toast.error("File size exceeds 250 MB limit.");
       return;
     }
 
